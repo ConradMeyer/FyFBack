@@ -3,8 +3,9 @@
 // Node modules
 // -------------------------------------------------------------------------------
 
-const express = require('express')
-const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs} = require('./src/controllers/controller')
+const express = require('express');
+const { json } = require('sequelize');
+const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass} = require('./src/controllers/controller')
 const {connectDatabase} = require("./src/database/crud")
 
 // -------------------------------------------------------------------------------
@@ -30,9 +31,15 @@ app.use(express.json())
 // -------------------------------------------------------------------------------
 
 app.post("/signup", async (req, res) => {
+    if(validateEmail(email)&&validatePass(pass)){
+         signUp(req.body.email, req.body.pass)
+    }else{
+           // Error --> Detectar pass o email
+              // Error --> Pass res.status(411).json( ok: false / message : "Su password no cumple con los requisitos que se solicitan" )
+              // Error --> Email res.status(406).json( ok: false / message: "Su email no cumple con los requisitos que se solicitan" )
 
-   const result =  await signUp(req.body.email, req.body.pass)
 
+    }
 })
 
 app.post("/signin", async (req, res) => {

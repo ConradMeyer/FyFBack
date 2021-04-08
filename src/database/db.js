@@ -6,11 +6,44 @@ const User = require('../models/users.model')
 const Favorite = require('../models/favorites.model')
 
 
+
+
+
+// -------------------------------------------------------------------------------
+// CONEXIÓN DB [provisional]
+// -------------------------------------------------------------------------------
+const mysql      = require('mysql');
+const connection = mysql.createConnection({
+        host     : 'localhost',
+        user     : 'root',
+        password : 'rootmySQL',
+        database : 'fyf'
+        });
+
+
+
+
+
 // -------------------------------------------------------------------------------
 // Logic
 // -------------------------------------------------------------------------------
 
-const registerNewUser = (user, pass) => {
+const registerNewUser = (USER) => {
+    connection.connect();
+    connection.query(USER, function (error, results, fields) {
+        if (error) throw error;
+
+        log("res", results)
+
+        });
+        connection.end();
+      // Comparar que no exista mail en DB (lectura)
+              // Exite --> res.status(401).json( url:login / ok: false / message: "El usuario ya existe")
+              // No existe --> lo añadimos a la DB res.status(200).json( ok: true / message: "Se ha creado el usuario con éxito")
+
+
+
+const result =  await signUp(req.body.email, req.body.pass)
 
 
 
