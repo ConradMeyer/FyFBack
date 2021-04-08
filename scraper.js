@@ -1,10 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-// const { Server } = require('node:http');
 const express = require('express');
-
-// const Counter = require('./data/models/Counter.js');
-// const Poem = require('./data/models/Poem.js');
 
 // ------ Configuración inicial ------
 const server = express();

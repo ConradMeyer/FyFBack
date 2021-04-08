@@ -12,7 +12,7 @@ const {connectDatabase} = require("./src/database/crud")
 // -------------------------------------------------------------------------------
 
 const SERVER_URI = `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`
-const app = express(SERVER_URI)
+const app = express();
 
 
 // -------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ app.use(express.json())
 
 app.post("/signup", async (req, res) => {
 
-    
+   const result =  await signUp(req.body.email, req.body.pass)
 
 })
 
@@ -52,7 +52,6 @@ app.get("/search/:keyword", async (req, res) => {
     const result = await searchJobs(req.params.keyword);
 
     res.send(JSON.stringify(result))
-    
 })
 
 app.post("/favorites/create", async (req, res) => {
