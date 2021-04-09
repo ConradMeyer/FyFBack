@@ -3,11 +3,10 @@
 // -------------------------------------------------------------------------------
 
 const md5 = require('md5')
+const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-// const {connectDatabase, closeDatabase} = require('../database/db')
 const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret} = require('../database/db')
-const axios = require('axios')
 
 
 
@@ -24,20 +23,17 @@ function validatePass(pass) {
 }
 
 
-
-
-
 // -------------------------------------------------------------------------------
 // Logic
 // -------------------------------------------------------------------------------
 
-const signUp = async (email, pass) => {
-   
+const signUp = async (email, pass) => { 
     const USER = {
         email: email,
         pass: pass
     }
-    registerNewUser(USER)
+    const result = registerNewUser(USER)
+    return result
 }
 
 const signIn = async (userName, pass) => {
@@ -74,7 +70,6 @@ const getProvinceCode = location => {
 }
 
 const searchJobs = async (term) => {
-
     const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${term}&ex=,1,2,&pr=#buscador-ofertas`);
     const $ = await cheerio.load(html.data);
 
