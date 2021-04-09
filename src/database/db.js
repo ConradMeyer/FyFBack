@@ -28,12 +28,16 @@ const connection = mysql.createConnection({
 // Logic
 // -------------------------------------------------------------------------------
 
+
 const registerNewUser = (USER) => {
     connection.connect();
-    connection.query(USER, function (error, results, fields) {
-        if (error) throw error;
+    connection.query(`INSERT INTO usuarios (email, pass) VALUES ("${USER.email}","${USER.pass}")`, function (error, results, fields)  {
+        // if (error) throw error;
 
-        log("res", results)
+        console.log("res", results)
+        console.log("fields", fields)
+        console.log("mail", USER.email)
+        console.log("pass", USER.pass)
 
         });
         connection.end();
@@ -41,12 +45,7 @@ const registerNewUser = (USER) => {
               // Exite --> res.status(401).json( url:login / ok: false / message: "El usuario ya existe")
               // No existe --> lo añadimos a la DB res.status(200).json( ok: true / message: "Se ha creado el usuario con éxito")
 
-
-
-const result =  await signUp(req.body.email, req.body.pass)
-
-
-
+// const result =  signUp(USER.email, USER.pass)
 }
 
 const checkPassword = (pass, user) => {
