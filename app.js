@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite} = require('./src/controllers/controller')
 
 // -------------------------------------------------------------------------------
 // Server configuration
@@ -41,7 +41,7 @@ app.post("/signup", async (req, res) => {
         else {
             res.status(400).json({
                 status: 400,
-                data: "Algo va mal...",
+                data: "Algo va mal...(Usuario ya existe)",
                 ok: false,
             })
         }
@@ -55,9 +55,8 @@ app.post("/signup", async (req, res) => {
 })
 
 app.post("/signin", async (req, res) => {
-
-   
-
+    const result = signIn(req.body.email, req.body.pass)
+    res.send(result)
 })
 
 app.post("/signout", async (req, res) => {
