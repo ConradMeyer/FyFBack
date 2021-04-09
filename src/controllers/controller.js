@@ -6,7 +6,7 @@ const md5 = require('md5')
 const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret} = require('../database/db')
+const {registerNewUser, checkUser, deleteSecret, deleteFav} = require('../database/db')
 
 
 
@@ -36,38 +36,20 @@ const signUp = async (email, pass) => {
     return result
 }
 
-const signIn = async (userName, pass) => {
-
-    // Pending: data validation
-    let token, result, secret = md5(Math.random(1, Date.now))
-    await checkUserLogged(userName, secret)
-        .then(user => checkPassword(pass, user), formatErrorMessage)
-        .then(user => generateJWT(user))
-        .then(tok => token = tok)
-        .catch(err => result = formatErrorMessage(err))
-    return !result ? token : result
-
+const signIn = async (email, pass) => {
+    const result = checkUser(email, pass)
+    return result
 }
 
 const signOut = async name => {
-
     // Pending: data validation
     let result
     await deleteSecret(name)
         .then(res => result = res)
         .catch(err => result = formatErrorMessage(err))
     return !result ? formatErrorMessage(result) : "User logged out"
-
 }
 
-const getProvinceCode = location => {
-
-    switch (location) {
-        case "madrid": return 263
-        case "barcelona": return 240
-    }
-
-}
 
 const searchJobs = async (term) => {
     const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${term}&ex=,1,2,&pr=#buscador-ofertas`);
@@ -99,9 +81,13 @@ const searchJobs = async (term) => {
 
 
 const saveFavorite = name => {
+  
 
-    
+}
 
+const deleteFavorite = async url => {
+    const result = await deleteFav(url);
+    return result
 }
 
 const formatErrorMessage = err => {
@@ -117,4 +103,4 @@ const formatErrorMessage = err => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, getProvinceCode, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass}
+module.exports = {signUp, signIn, signOut, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass, deleteFavorite}
