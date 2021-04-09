@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite} = require('./src/controllers/controller')
 
 // -------------------------------------------------------------------------------
 // Server configuration
@@ -67,9 +67,7 @@ app.post("/signout", async (req, res) => {
 })
 
 app.get("/search/:keyword", async (req, res) => {
-
     const result = await searchJobs(req.params.keyword);
-
     res.send(JSON.stringify(result))
 })
 
@@ -79,9 +77,8 @@ app.post("/favorites/create", async (req, res) => {
 })
 
 app.delete("/favorites/delete", async (req, res) => {
-
-    
-
+    const result = await deleteFavorite(req.body.url);
+    res.send(result)
 })
 
 app.get("/favorites/get", async (req, res) => {
