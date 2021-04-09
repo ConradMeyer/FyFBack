@@ -19,6 +19,7 @@ connection.connect();
 
 const registerNewUser = (USER) => {
         connection.query(`INSERT INTO usuarios (email, pass) VALUES ("${USER.email}","${USER.pass}")`, function (error, results, fields)  {
+          
                 if (error) {
                         return false
                 }
@@ -88,4 +89,20 @@ const deleteSecret = user => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret}
+const registerNewFav = NEWFAV => new Promise((resolve, reject) => {
+      
+        connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
+                console.log("RESULTS DE DB", results.affectedRows);
+                console.log("RESULTS", results);
+             
+                if (error) {
+                        reject(false) // Como un return
+                }
+                else {
+                        resolve(results.affectedRows);
+                }   
+        });
+
+} )
+
+module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, registerNewFav}

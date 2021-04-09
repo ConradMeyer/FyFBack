@@ -74,7 +74,32 @@ app.get("/search/:keyword", async (req, res) => {
 })
 
 app.post("/favorites/create", async (req, res) => {
-
+const result = await saveFavorite(req.body.titulo, req.body.resumen, req.body.url, req.body.idUsuario)
+// SI el no existe en la base de datos con ese idUsuario = id 
+console.log("79", result)
+    if(result === 0){
+            res.status(400).json({
+                status: 400,
+                data: "Ese usuario favorito ya existe",
+                ok: false,
+                
+            })
+        }
+    else {
+            res.status(200).json({
+                status: 200,
+                data: "Usuario favorito guardado correctamente",
+                url: '/'
+            })
+        }
+// ELSE
+/* 
+res.status(500).json({
+    status:500,
+    data: "Ya existe tu usuario en la base de datos"
+    ok: false,
+})
+*/
 
 })
 

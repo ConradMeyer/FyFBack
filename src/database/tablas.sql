@@ -15,6 +15,8 @@ idUsuario INT,
 FOREIGN KEY(idUsuario) REFERENCES usuarios(id)
 )
 
+--CONSULTAR USUARIO
+SELECT * FROM usuarios;
 
 -- ESCRIBIR
 INSERT INTO usuarios (email, pass) VALUES
@@ -22,3 +24,14 @@ INSERT INTO usuarios (email, pass) VALUES
 
 -- BORRAR TABLA
 DROP TABLE usuarios;
+
+-- AÑADIR CONTENIDO A UNA TABLA
+INSERT INTO favoritos (titulo,resumen, url, idUsuario)
+VALUES('', '', '', '');
+
+-- BORRAR CONTENIDO DE UNA TABLA
+DELETE FROM favoritos WHERE id='3';
+
+-- MODIFICAR 
+ALTER TABLE favoritos ADD UNIQUE INDEX(url, idUsuario);
+INSERT IGNORE INTO favoritos(...) VALUES (...)
