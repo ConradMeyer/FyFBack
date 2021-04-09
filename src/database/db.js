@@ -1,13 +1,3 @@
-// -------------------------------------------------------------------------------
-// Node modules
-// -------------------------------------------------------------------------------
-
-const User = require('../models/users.model')
-const Favorite = require('../models/favorites.model')
-
-
-
-
 
 // -------------------------------------------------------------------------------
 // CONEXIÓN DB [provisional]
@@ -16,13 +6,11 @@ const mysql      = require('mysql');
 const connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
-        password : 'rootmySQL',
+        password : 'root',
         database : 'fyf'
         });
 
-
-
-
+º
 
 // -------------------------------------------------------------------------------
 // Logic

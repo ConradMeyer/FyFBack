@@ -5,8 +5,9 @@
 const md5 = require('md5')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-const {connectDatabase, closeDatabase} = require('../database/crud')
+// const {connectDatabase, closeDatabase} = require('../database/db')
 const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret} = require('../database/db')
+const axios = require('axios')
 
 
 

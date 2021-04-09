@@ -1,6 +1,7 @@
+-- CREAR TABLAS
 CREATE TABLE usuarios (
 id INT PRIMARY KEY AUTO_INCREMENT,
-email VARCHAR(20) NOT NULL,
+email VARCHAR(20) NOT NULL UNIQUE,
 pass VARCHAR(40) NOT NULL,
 secret VARCHAR(40)
 )
@@ -13,3 +14,11 @@ url VARCHAR(300) NOT NULL,
 idUsuario INT,
 FOREIGN KEY(idUsuario) REFERENCES usuarios(id)
 )
+
+
+-- ESCRIBIR
+INSERT INTO usuarios (email, pass) VALUES
+('chape@gmail.com', 'chapelas93');
+
+-- BORRAR TABLA
+DROP TABLE usuarios;

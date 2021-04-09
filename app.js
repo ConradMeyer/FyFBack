@@ -5,8 +5,9 @@
 
 const express = require('express');
 const { json } = require('sequelize');
+const dotenv = require('dotenv').config()
 const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass} = require('./src/controllers/controller')
-const {connectDatabase} = require("./src/database/crud")
+// const {connectDatabase} = require("./src/database/db")
 
 // -------------------------------------------------------------------------------
 // Server configuration
@@ -84,5 +85,5 @@ app.get("/favorites/get", async (req, res) => {
 // Start server
 // -------------------------------------------------------------------------------
 
-connectDatabase()
+// connectDatabase()
 app.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}`))
