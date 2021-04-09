@@ -31,9 +31,10 @@ app.use(express.json())
 // -------------------------------------------------------------------------------
 
 app.post("/signup", async (req, res) => {
-    if(validateEmail(email)&&validatePass(pass)){
+    if(validateEmail(req.body.email)&&validatePass(req.body.pass)){
          signUp(req.body.email, req.body.pass)
     }else{
+        console.log("Te has ido por el ELSE en app.post(signup");
            // Error --> Detectar pass o email
               // Error --> Pass res.status(411).json( ok: false / message : "Su password no cumple con los requisitos que se solicitan" )
               // Error --> Email res.status(406).json( ok: false / message: "Su email no cumple con los requisitos que se solicitan" )
