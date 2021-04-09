@@ -55,7 +55,7 @@ app.post("/signup", async (req, res) => {
 })
 
 app.post("/signin", async (req, res) => {
-    const result = signIn(req.body.email, req.body.pass)
+    const result = await signIn(req.body.email, req.body.pass)
     res.send(result)
 })
 
