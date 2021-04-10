@@ -6,7 +6,7 @@ const connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
         password : 'root',
-        database : 'fyf'
+        database : 'fyfdb'
 });
 connection.connect();
 
@@ -48,9 +48,27 @@ const deleteSecret = user => {
     
 
 
+function readFavorite(email) {
 
+        //hacer un select a la base de datos a la tabla de usuarios y buscar si existe, si existe recojo su id.
+        connection.query(`SELECT id FROM usuarios WHERE email  ("${email}")`, function (error, id, fields)  {
+           
+            console.log();
+        //     console.log(fields);
+        // connection.query(`SELECT * from favoritos INNER JOIN usuarios ON 'favoritos.idUsuarios' = 'usuarios.id'`), function (error, id, fields)  {
+    
+             if (error) {
+    
+                     return false
+             }
+            else {
+                     return true;
+             }           
+             
+}
 
-
+        
+        )};
 
 // const registerNewUser = (user, pass) => {
 
@@ -85,4 +103,4 @@ const deleteSecret = user => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret}
+module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, readFavorite, connection}

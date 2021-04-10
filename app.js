@@ -4,13 +4,14 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass} = require('./src/controllers/controller')
-
+const jwt = require('jsonwebtoken');
+const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass, readFav} = require('./src/controllers/controller')
+const {connection} = require('./src/database/db')
 // -------------------------------------------------------------------------------
 // Server configuration
 // -------------------------------------------------------------------------------
 
-// const SERVER_URI = `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`
+ //const SERVER_URI = `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`
 const app = express();
 
 
@@ -85,7 +86,33 @@ app.delete("/favorites/delete", async (req, res) => {
 
 app.get("/favorites/get", async (req, res) => {
 
+    const tk = req.headers.authorization;
+        const decodeTK = jwt.decode(tk)
+        readFav(decodeTK);
 
+        
+        // console.log("req",decodeTK.email);
+    
+         // Cuando el usuario de al boton de favoritos mostrarselos si los tiene
+        // tenemos que recibir un token en el header de la request
+        // descifrar el token para poder ver el email(jsonwebtoken) metodo jwt.decode
+        //hacer un select a la base de datos a la tabla de usuarios y buscar si existe, si existe recojo su id.
+        // Select * from favoritos where idUsuario sea iguial id
+                // recibir la consulta del front por el botón favoritos
+                // ver cuales tienes guardados en la base de datos
+                // los que tengamos guardados se lo devolvemos a front
+        // cuando se haga scrapper en la misma función tiene que hacerse una lectura de los favoritos para mostrar en pantalla
+
+
+
+
+        //   const tkDecode = tk.jwt.decode();
+        // const options = { 
+        //     method: 'POST',
+        //     body: JSON.stringify({keyword: KEYWORD.value, ubicacion: UBICACION.value}),
+        //     headers:{'Content-Type': 'application/json'}
+        //   }
+        
     
 })
 
@@ -95,3 +122,8 @@ app.get("/favorites/get", async (req, res) => {
 // -------------------------------------------------------------------------------
 
 app.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}`))
+
+
+
+
+module.exports = {}

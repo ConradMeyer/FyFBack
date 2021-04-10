@@ -6,7 +6,7 @@ const md5 = require('md5')
 const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret} = require('../database/db')
+const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, readFavorite} = require('../database/db')
 
 
 
@@ -97,6 +97,21 @@ const searchJobs = async (term) => {
     return result;
 }
 
+function readFav  (usuario)  {
+
+    const email = usuario.email;
+
+
+     readFavorite(email);
+
+     
+
+    
+
+}
+
+
+
 
 const saveFavorite = name => {
 
@@ -117,4 +132,5 @@ const formatErrorMessage = err => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, getProvinceCode, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass}
+
+module.exports = {signUp, signIn, signOut, getProvinceCode, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass, readFav}
