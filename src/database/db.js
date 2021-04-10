@@ -48,19 +48,19 @@ const checkPassword = (pass, user) => {
 }
 
 const checkUser = (email, pass) => {
-        return new Promise((res, rej) => {        
-                connection.query(`SELECT secret FROM usuarios WHERE email = '${email}' AND pass = '${pass}'`, function(err, results, fields){
+        return new Promise((res, rej) => {   
+                connection.query(`SELECT secret, id FROM usuarios WHERE email = '${email}' AND pass = '${pass}'`, function(err, results, fields){
                         if (err) {
                                 console.log(err);
-                                rej(false)
+                                res(false)
                         }
                         else if (results[0]?.secret) {
-                                let token = jwt.sign({ email: email }, results[0].secret, {expiresIn: 60*60})
+                                let token = jwt.sign({ email: email, id: results[0].id }, results[0].secret,  {expiresIn: 60*60})
                                 const result = {
                                 status: 200,
-                                data: "Usuario creado correctamente",
+                                data: "Usuario logeado correctamente",
                                 token: token,
-                                url: "/home",
+                                idUsuario: results[0].id,
                                 ok: true
                                 }
                                 res(result) 
