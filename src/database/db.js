@@ -57,6 +57,7 @@ const checkUser = (email, pass) => {
                                         status: 401,
                                         data: "Email o contraseña incorrect@s",
                                         ok: false,
+                                        
                                 }
                                 res(result) 
                         }
