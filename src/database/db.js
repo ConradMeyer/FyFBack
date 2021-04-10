@@ -158,10 +158,54 @@ const deleteFav = async url => {
                 });
         })
 }
-    
+
+const registerNewFav = NEWFAV => {
+        new Promise((resolve, reject) => {
+                connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
+                        if (error) {
+                                const result = {
+                                        status: 401,
+                                        data: "Ha ocurrido un error",
+                                        ok: false,
+                                        url: '/'
+                                }
+                                resolve(result);
+                        }
+                        else if(results.affectedRows === 0) {
+                                const result = {
+                                        status: 400,
+                                        data: "Esta oferta favorita ya existe",
+                                        ok: false
+                                }
+                                resolve(result);
+                        } else {
+                                const result = {
+                                        status: 200,
+                                        data: "Oferta favorita guardada correctamente",
+                                        url: '/',
+                                        ok: true
+                                }
+                                resolve(result);
+                        }   
+                })
+        })
+}
+
+const changeCodes = async TERM => { 
+        return new Promise ((resolve, reject) => {
+                connection.query(`SELECT codigo FROM  codigos WHERE nombre = ('${TERM.localizacion}')`, function (error, results, fields)  {
+                        if(error) {
+                                reject(error)
+                        }
+                        else {
+                        resolve(results[0].codigo)
+                        }
+                })
+        })
+}
 
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite}
+module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes}

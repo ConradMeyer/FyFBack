@@ -5,12 +5,6 @@
 require('dotenv').config();
 const express = require('express');
 const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
-
-// -------------------------------------------------------------------------------
-// Server configuration
-// -------------------------------------------------------------------------------
-
-// const SERVER_URI = `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`
 const app = express();
 
 // -------------------------------------------------------------------------------
@@ -21,7 +15,6 @@ const staticFilesPath = express.static(__dirname + "/public")
 app.use(staticFilesPath)
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
-
 
 // -------------------------------------------------------------------------------
 // API
@@ -50,13 +43,19 @@ app.put("/signout", async (req, res) => {
     res.send(result);
 })
 
-app.get("/search/:keyword", async (req, res) => {
-    const result = await searchJobs(req.params.keyword);
-    res.send(JSON.stringify(result))
+app.get("/search/:localization/:keyword", async (req,res) => {
+    const result = await searchJobs(req.params.localization, req.params.keyword);
+    const result2 = await searchJobs2(req.params.localization, req.params.keyword);
+    
+    const finalResult = [...result, ...result2];
+
+    res.send(finalResult)
+  
 })
 
 app.post("/favorites/create", async (req, res) => {
-    
+    const result = await saveFavorite(req.body.titulo, req.body.resumen, req.body.url, req.body.idUsuario)
+    res.send(result)
 })
 
 app.delete("/favorites/delete", async (req, res) => {
@@ -68,7 +67,6 @@ app.get("/favorites/get", async (req, res) => {
     const result = await readFav(req.headers.authorization);
     res.send(result)
 })
-
 
 // -------------------------------------------------------------------------------
 // Start server
