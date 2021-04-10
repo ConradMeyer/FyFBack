@@ -19,14 +19,27 @@ connection.connect();
 
 const registerNewUser = (USER) => {
         const secret = randomstring.generate();
-        connection.query(`INSERT INTO usuarios (email, pass, secret) VALUES ("${USER.email}","${USER.pass}", "${secret}")`, function (error, results, fields)  {
-                if (error) {
-                        return false
-                }
-                else {
-                        return true;
-                }   
-        });
+        return new Promise((res, rej) => { 
+                connection.query(`INSERT INTO usuarios (email, pass, secret) VALUES ("${USER.email}","${USER.pass}", "${secret}")`, function (error, results, fields)  {
+                        if (error) {
+                                const result = {
+                                        status: 400,
+                                        data: "Usuario ya existe",
+                                        ok: false
+                                }
+                                res(result) 
+                        }
+                        else {
+                                const result = {
+                                        status: 200,
+                                        data: "Usuario creado",
+                                        url: '/signin',
+                                        ok: true
+                                }
+                                res(result)
+                        }   
+                });
+        })
 }
 
 const checkPassword = (pass, user) => {

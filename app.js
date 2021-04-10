@@ -13,7 +13,6 @@ const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validat
 // const SERVER_URI = `${process.env.PROTOCOL}://${process.env.HOST}:${process.env.PORT}`
 const app = express();
 
-
 // -------------------------------------------------------------------------------
 // Frontend app
 // -------------------------------------------------------------------------------
@@ -30,21 +29,8 @@ app.use(express.json())
 
 app.post("/signup", async (req, res) => {
     if(validateEmail(req.body.email)&&validatePass(req.body.pass)){
-        const result =  signUp(req.body.email, req.body.pass)
-        if (result) {
-            res.status(200).json({
-                status: 200,
-                data: "Usuario creado",
-                url: '/signin',
-            })
-        }
-        else {
-            res.status(400).json({
-                status: 400,
-                data: "Algo va mal...(Usuario ya existe)",
-                ok: false,
-            })
-        }
+        const result =  await signUp(req.body.email, req.body.pass)
+        res.send(result)
     } else {
         res.status(406).json({
             status: 406,

@@ -32,7 +32,7 @@ const signUp = async (email, pass) => {
         email: email,
         pass: pass
     }
-    const result = registerNewUser(USER)
+    const result = await registerNewUser(USER)
     return result
 }
 
