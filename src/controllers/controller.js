@@ -37,17 +37,12 @@ const signUp = async (email, pass) => {
 }
 
 const signIn = async (email, pass) => {
-    const result = checkUser(email, pass)
+    const result = await checkUser(email, pass)
     return result
 }
 
 const signOut = async name => {
-    // Pending: data validation
-    let result
-    await deleteSecret(name)
-        .then(res => result = res)
-        .catch(err => result = formatErrorMessage(err))
-    return !result ? formatErrorMessage(result) : "User logged out"
+
 }
 
 
@@ -90,17 +85,11 @@ const deleteFavorite = async url => {
     return result
 }
 
-const formatErrorMessage = err => {
 
-    if (!err) return "User is not in database"
-    if (err === "wrong password") return "wrong password"
-    if (err.code === 11000) return "User already exist"
-
-}
 
 
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass, deleteFavorite}
+module.exports = {signUp, signIn, signOut, searchJobs, saveFavorite, validateEmail, validatePass, deleteFavorite}
