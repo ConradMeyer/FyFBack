@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
 
 // -------------------------------------------------------------------------------
 // Server configuration
@@ -45,10 +45,9 @@ app.post("/signin", async (req, res) => {
     res.send(result)
 })
 
-app.post("/signout", async (req, res) => {
-
-    
-
+app.put("/signout", async (req, res) => {
+    const result = await signOut(req.headers.authorization);
+    res.send(result);
 })
 
 app.get("/search/:keyword", async (req, res) => {
@@ -57,8 +56,7 @@ app.get("/search/:keyword", async (req, res) => {
 })
 
 app.post("/favorites/create", async (req, res) => {
-
-
+    
 })
 
 app.delete("/favorites/delete", async (req, res) => {
@@ -67,9 +65,8 @@ app.delete("/favorites/delete", async (req, res) => {
 })
 
 app.get("/favorites/get", async (req, res) => {
-
-
-    
+    const result = await readFav(req.headers.authorization);
+    res.send(result)
 })
 
 

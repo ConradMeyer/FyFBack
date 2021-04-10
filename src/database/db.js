@@ -3,7 +3,9 @@
 // -------------------------------------------------------------------------------
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
+const md5 = require('md5')
 const randomstring = require("randomstring");
+const { load } = require('cheerio');
 const connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -42,11 +44,6 @@ const registerNewUser = (USER) => {
         })
 }
 
-const checkPassword = (pass, user) => {
-
-
-}
-
 const checkUser = (email, pass) => {
         return new Promise((res, rej) => {   
                 connection.query(`SELECT secret, id FROM usuarios WHERE email = '${email}' AND pass = '${pass}'`, function(err, results, fields){
@@ -78,9 +75,75 @@ const checkUser = (email, pass) => {
         })
 }
 
-const deleteSecret = user => {
+const readFavorite = token => {
+        const decode = jwt.decode(token)
+        console.log(decode);
+        if (decode.email) {
+                return new Promise((res, rej) => {
+                        connection.query(`SELECT * FROM favoritos WHERE idUsuario = ${decode.id}`, function (error, result, fields)  {
+                                if (error) {
+                                        console.log(error);
+                                        res(false) 
+                                }
+                                else {
+                                        console.log(result);
+                                        res(result)
+                                }           
+                        })
+                })
+        } else {
+                const result = {
+                        status: 400,
+                        data: "Token not found",
+                        url: "/",
+                        ok: false
+                }
+                return result
+        }
+}
 
-    
+const deleteSecret = token => {
+        const secret = randomstring.generate();
+        const decode = jwt.decode(token); 
+        if(decode.email){
+                return new Promise((res, rej) => {
+                        connection.query(`UPDATE usuarios SET secret= "${secret}" WHERE email= "${decode.email}"`, function(err, results){
+                                if(err) {
+                                        const result = {
+                                                status : 406,
+                                                data: "Algo salió mal...",
+                                                ok: false,
+                                        };
+                                        res(result) 
+                
+                                } else if (results.changedRows == 1) {
+                                        const result = {
+                                                status: 200,
+                                                data: "Logout correctly",
+                                                url : "/",
+                                                ok: true
+                                        }
+                                        res(result) 
+                                } else {
+                                        const result = {
+                                                status: 401,
+                                                data: "Algo va mal...",
+                                                ok: false
+                                        }
+                                        res(result)
+                                }
+                                
+                        })
+                })
+        } else {
+                const result = {
+                        status: 400,
+                        data: "Token not found",
+                        url: "/",
+                        ok: false
+                }
+                return result
+        }
 }
 
 const deleteFav = async url => {
@@ -101,4 +164,4 @@ const deleteFav = async url => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser}
+module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite}

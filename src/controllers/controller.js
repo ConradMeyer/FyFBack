@@ -6,7 +6,7 @@ const md5 = require('md5')
 const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-const {registerNewUser, checkUser, deleteSecret, deleteFav} = require('../database/db')
+const {registerNewUser, checkUser, deleteSecret, deleteFav, readFavorite} = require('../database/db')
 
 
 
@@ -41,8 +41,9 @@ const signIn = async (email, pass) => {
     return result
 }
 
-const signOut = async name => {
-
+const signOut = async token => {
+    const result = await deleteSecret(token);
+    return result;
 }
 
 
@@ -80,6 +81,11 @@ const saveFavorite = name => {
 
 }
 
+const readFav = async token => {
+    const result = await readFavorite(token);
+    return result
+}
+
 const deleteFavorite = async url => {
     const result = await deleteFav(url);
     return result
@@ -92,4 +98,4 @@ const deleteFavorite = async url => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, searchJobs, saveFavorite, validateEmail, validatePass, deleteFavorite}
+module.exports = {signUp, signIn, signOut, searchJobs, saveFavorite, validateEmail, validatePass, deleteFavorite, readFav}
