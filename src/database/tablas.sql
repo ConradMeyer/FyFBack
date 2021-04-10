@@ -14,4 +14,4 @@ idUsuario INT,
 FOREIGN KEY(idUsuario) REFERENCES usuarios(id)
 );
 
-INSERT INTO favoritos (titulo, resumen, url, idUsuario) VALUES ('Primera oferta', 'Esta es la primera oferta de prueba', 'url.url.url', 1);
+INSERT INTO favoritos (titulo, resumen, url, idUsuario) VALUES ('OFERTA DE PRUEBA', 'Esta es la primera oferta de prueba', 'https://trello.com/b/H3mSWYIr/fyf', 4);
