@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, validateEmail, validatePass} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, getProvinceCode, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass} = require('./src/controllers/controller')
 
 // -------------------------------------------------------------------------------
 // Server configuration
@@ -66,41 +66,26 @@ app.post("/signout", async (req, res) => {
 
 })
 
-app.get("/search/:keyword", async (req, res) => {
-
-    const result = await searchJobs(req.params.keyword);
-
+app.get("/search/:keyword/:localization", async (req, res) => {
+    const result = await searchJobs(req.params.keyword, req.params.localization);  // Cambiar segundo parámetro
     res.send(JSON.stringify(result))
 })
 
+// Segundo enpoint de búsqueda de empleo: jooble
+app.get("/search2/:localization/:keyword", async (req,res) => {
+    const result = await searchJobs2(req.params.localization, req.params.keyword);
+    res.send(JSON.stringify(result))
+
+})
+
+
+
+
+
+
 app.post("/favorites/create", async (req, res) => {
 const result = await saveFavorite(req.body.titulo, req.body.resumen, req.body.url, req.body.idUsuario)
-// SI el no existe en la base de datos con ese idUsuario = id 
-console.log("79", result)
-    if(result === 0){
-            res.status(400).json({
-                status: 400,
-                data: "Ese usuario favorito ya existe",
-                ok: false,
-                
-            })
-        }
-    else {
-            res.status(200).json({
-                status: 200,
-                data: "Usuario favorito guardado correctamente",
-                url: '/'
-            })
-        }
-// ELSE
-/* 
-res.status(500).json({
-    status:500,
-    data: "Ya existe tu usuario en la base de datos"
-    ok: false,
-})
-*/
-
+    res.send(result)
 })
 
 app.delete("/favorites/delete", async (req, res) => {

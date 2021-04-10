@@ -6,7 +6,7 @@ const md5 = require('md5')
 const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
-const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, registerNewFav} = require('../database/db')
+const {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, registerNewFav, changeCodes} = require('../database/db')
 
 
 
@@ -69,8 +69,15 @@ const getProvinceCode = location => {
 
 }
 
-const searchJobs = async (term) => {
-    const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${term}&ex=,1,2,&pr=#buscador-ofertas`);
+
+// primer scraper
+const searchJobs = async (termKey, termLoc) => {
+
+    console.log("1", termKey)
+    console.log("2", termLoc)
+   
+    const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${termKey}&ex=,1,2,&pr=,${termLoc},#buscador-ofertas-ini`)
+    // const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${term}&ex=,1,2,&pr=#buscador-ofertas`);
     const $ = await cheerio.load(html.data);
 
     let resumenes = [];
@@ -98,14 +105,63 @@ const searchJobs = async (term) => {
 }
 
 
+// Segundo scraper
+const searchJobs2 = async (termLoc, termKeyw) => {
+
+    const TERM = {
+        localizacion: termLoc, 
+    }
+
+     const result2 = changeCodes(TERM)
+     console.log("666", result2);
+
+     const html = await axios.get(`https://es.jooble.org/SearchResult?rgns=${result.localization}&ukw=${result.keyword}&workExp=2`);
+        const $ = await cheerio.load(html.data)
+
+        console.log("3", termLoc);
+        console.log("4", termKeyw);
+
+        let resumenes = [];
+        let titulos = [];
+        let urls = [];
+
+
+        $('span.a7df9').each(function () {
+            titulos.push($(this).text().trim().replace(/\t|\n/g, ""));
+        });
+        $('div._0b1c1').each(function () {
+            resumenes.push($(this).text().trim().replace(/\t|\n/g, ""));
+        });
+        // link = $('a')
+        $('a.baa11._1d27a.button_size_M.d95a3._2c371._70395').each(function () {
+            urls.push($(this).attr("href").replace(/(m\/)/g, ""));
+        });
+
+            
+        const result = resumenes.map((el, i) => {
+            const obj = {titulo: titulos[i], resumen: el, url: `es.jooble.org` + urls[i]}
+        
+            return obj
+        })
+
+        console.log(result2);
+
+        return result2;
+}
+
+
+// .replace(/\t|\n/g, ""
+
+
+
+
+
+
 const saveFavorite = async (titulo, resumen, url, idUsuario) => {
     const NEWFAV = { titulo, resumen, url, idUsuario }
 
-
     const result = await registerNewFav(NEWFAV)
-    console.log("result", result)
     return result
-
     }
 
 
@@ -123,4 +179,4 @@ const formatErrorMessage = err => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, getProvinceCode, searchJobs, saveFavorite, formatErrorMessage, validateEmail, validatePass}
+module.exports = {signUp, signIn, signOut, getProvinceCode, searchJobs, searchJobs2, saveFavorite, formatErrorMessage, validateEmail, validatePass }

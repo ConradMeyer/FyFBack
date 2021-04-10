@@ -54,6 +54,26 @@ const deleteSecret = user => {
 
 
 
+const changeCodes = async TERM => {
+        connection.query(`SELECT codigo FROM  codigos WHERE nombre = ('${TERM.localizacion}')`, function (error, results, fields)  {
+          
+                console.log("21", TERM.localizacion);
+                console.log("22", results);
+                console.log("23", typeof(results));
+                console.log("24", results[0].codigo); // número
+                // if (error) {
+                //         return false
+                // }
+                // else {
+                //         return true;
+                // }   
+                return results[0].codigo;
+        });
+
+            }
+
+
+
 
 
 // const registerNewUser = (user, pass) => {
@@ -92,17 +112,33 @@ const deleteSecret = user => {
 const registerNewFav = NEWFAV => new Promise((resolve, reject) => {
       
         connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
-                console.log("RESULTS DE DB", results.affectedRows);
-                console.log("RESULTS", results);
              
                 if (error) {
-                        reject(false) // Como un return
-                }
-                else {
-                        resolve(results.affectedRows);
+                        const result = {
+                                status: 401,
+                                data: "Ha ocurrido un error",
+                                ok: false,
+                                url: '/home'
+
+                        }
+                        reject(result);
+                        }
+                else if(results.affectedRows === 0) {
+                        const result = {
+                                status: 400,
+                                data: "Ese usuario favorito ya existe",
+                                ok: false
+                        }
+                        resolve(result);
+                }else{
+                        const result = {
+                                status: 200,
+                                data: "Usuario favorito guardado correctamente",
+                                url: '/home'
+                        }
+                        resolve(result);
                 }   
         });
+})
 
-} )
-
-module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, registerNewFav}
+module.exports = {registerNewUser, checkUserLogged, checkPassword, generateJWT, deleteSecret, registerNewFav, changeCodes}
