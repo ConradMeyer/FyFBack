@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace;
+
+}
+
+div.main {
+    background-image: url(https://ticjob.es/img/theme-nd/no-fusion/background-home.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    height: 320px;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div.titulo {
+    margin: 50px;
+    margin-left: 10%;
+    color: orangered;
+}
+    .subtitulo {
+        margin-bottom: 20px;
+    }
+div.menu {
+    display: flex;
+    flex-direction: row;
+    margin-top: -100px;
+    margin-right: 20px;
+}
+    div.menu>div {
+        background-color: whitesmoke;
+        margin: 15px;
+        padding: 8px 12px;
+        text-align: center;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px 0px black;
+        font-weight: bolder;
+    }
+        div.menu .signup {
+            background-color: dodgerblue;
+            color: white;
+        }
+
+        div.menu .favoritos {
+            background-color: yellow;
+            color: black;
+        }
+
+        div.menu .logout {
+            background-color: dodgerblue;
+            color: black;
+        }
+            div.menu>div:hover {
+                cursor: pointer;
+                transform: scale(1.05);
+            }
+
+div.buscador {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 50px auto;
+    background-color: rgba(245, 245, 245, 0.6);
+    padding: 12px;
+    width: 80%;
+}
+    .buscador input {
+        padding: 10px;
+        margin: 0px 10px;
+        width: 30%;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0px 0px 20px 0px black;
+    }
+    .buscador button {
+        background-color: orangered;
+        color: white;
+        margin: 0px 5px;
+        border: none;
+        width: 100px;
+        border-radius: 15px;
+        font-weight: bold;
+        box-shadow: 0px 0px 20px 0px black;
+    }
+        .buscador button:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+
+.result .oferta {
+    width: 90%;
+    max-width: 1000px;
+    background-color: rgba(128, 128, 128, 0.5);
+    margin: 20px auto;
+    padding: 20px;
+    color: black;
+}
+    .oferta a {
+        text-decoration: none;
+        font-size: 20px;
+        color: black;
+    }
+        .oferta a:hover {
+            text-decoration: underline;
+        }
+    .oferta h3 {
+        margin-top: 15px;
+    }
+    .oferta .guardar {
+        background-color: black;
+        color: whitesmoke;
+        font-weight: bold;
+        width: 10%;
+        min-width: 100px;
+        margin-top: 10px;
+        text-align: center;
+        padding: 5px;
+    }
+        .guardar:hover {
+            cursor: pointer;
+            background-color: whitesmoke;
+            color: black;
+            transform: scale(1.05);
+        }
+
+@media screen and ( max-width: 610px ) {
+    header  {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+    }
+
+    div.buscador {
+        width: 95%;
+    }
+
+}
