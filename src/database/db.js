@@ -178,7 +178,6 @@ const registerNewFav = NEWFAV => {
         if (NEWFAV.token.email){
                 return new Promise((resolve, reject) => {
                         connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
-                                console.log(results);
                                 if (error) {
                                         const result = {
                                                 status: 401,
@@ -196,7 +195,6 @@ const registerNewFav = NEWFAV => {
                                         }
                                         resolve(result);
                                 } else {
-                                        console.log("BIEN!");
                                         const result = {
                                                 status: 200,
                                                 data: "Oferta favorita guardada correctamente",
