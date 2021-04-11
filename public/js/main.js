@@ -120,17 +120,16 @@ async function pintarFav(data) {
 }
 
 function guardarFav(data) {
-  const token = localStorage.getItem("token");
   const options = { 
     method: 'POST',
-    body: JSON.stringify({titulo: data.titulo, resumen: data.resumen, url: data.url, token: token}),
+    body: JSON.stringify({titulo: data.titulo, resumen: data.resumen, url: data.url}),
     headers:{
       'Content-Type': 'application/json',
       'authorization': sessionStorage.getItem('token')
     }
   }
 
-  fetch("/favorito", options)
+  fetch("/favorites/create", options)
     .then(res => res.json())
     .then(res => console.log(res))
     .catch(err => console.log("Algo va mal...", err))
