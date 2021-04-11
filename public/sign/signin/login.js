@@ -14,15 +14,12 @@ function signin() {
         .then(data => data.json())
         .then(response => {
             if (response.status === 200) {
+                alert(response.data)
                 localStorage.setItem("token", response.token)
                 window.location.href = "http://localhost:8080/"
             }
             else if (response.status === 401) {
-                alert("Email o contraseña incorrect@s")
-                console.log(response);
-            }
-            else if (response.status === 400) {
-                alert("Email no valido")
+                alert(response.data)
             }
             else {
                 alert("No se que va mal...")

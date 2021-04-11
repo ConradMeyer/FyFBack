@@ -71,6 +71,7 @@ div.buscador {
     justify-content: center;
     margin: 50px auto;
     background-color: rgba(245, 245, 245, 0.6);
+    border-radius: 10px;
     padding: 12px;
     width: 80%;
 }
@@ -79,7 +80,7 @@ div.buscador {
         margin: 0px 10px;
         width: 30%;
         border: none;
-        border-radius: 15px;
+        border-radius: 10px;
         box-shadow: 0px 0px 20px 0px black;
     }
     .buscador button {
@@ -88,7 +89,7 @@ div.buscador {
         margin: 0px 5px;
         border: none;
         width: 100px;
-        border-radius: 15px;
+        border-radius: 10px;
         font-weight: bold;
         box-shadow: 0px 0px 20px 0px black;
     }
@@ -99,10 +100,13 @@ div.buscador {
 
 .result .oferta {
     width: 90%;
+    font-family: 'Times New Roman', Times, serif;
     max-width: 1000px;
-    background-color: rgba(128, 128, 128, 0.5);
+    background-color: whitesmoke;
     margin: 20px auto;
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 15px -4px black;
     color: black;
 }
     .oferta a {
@@ -120,6 +124,7 @@ div.buscador {
         background-color: black;
         color: whitesmoke;
         font-weight: bold;
+        border-radius: 10px;
         width: 10%;
         min-width: 100px;
         margin-top: 10px;
@@ -128,6 +133,7 @@ div.buscador {
     }
         .guardar:hover {
             cursor: pointer;
+            border: 1px solid black;
             background-color: whitesmoke;
             color: black;
             transform: scale(1.05);
