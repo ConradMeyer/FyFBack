@@ -23,6 +23,7 @@ async function pintar(data) {
 
   let h2 = document.createElement("a")
   let title = document.createTextNode(data.titulo)
+  h2.setAttribute("target", "_blank")
   h2.setAttribute("href", data.url)
   h2.appendChild(title)
   div.appendChild(h2)
@@ -34,7 +35,7 @@ async function pintar(data) {
 
   RESULT.appendChild(div)
   
-  if (sessionStorage.getItem("token")) {
+  if (!localStorage.getItem("token") == "") {
     let btn = document.createElement("div")
     btn.setAttribute("class", "guardar")
     let btnC = document.createTextNode("SAVE")
@@ -46,14 +47,26 @@ async function pintar(data) {
 }
 
 function logout() {
-  fetch("/logout", {
+  fetch("/signout", {
     method: 'PUT',
     headers: {
-        'authorization': sessionStorage.getItem('token')
+        'authorization': localStorage.getItem('token')
     }
   })
     .then(res => res.json())
-    .then(data => alert(data.data))
+    .then(data => {
+      if (data.status === 406) {
+        console.log(data.data);
+      }
+      else if (data.status === 200) {
+        localStorage.setItem('token', "")
+        alert(data.data)
+        window.location.reload()
+      }
+      else if (data.status === 401) {
+        console.log(data.data);
+      }
+    })
     .catch(err => console.log(err))
 }
 
@@ -73,23 +86,29 @@ async function botones () {
   btnOut.appendChild(contB)
   MENU.appendChild(btnOut)
 
-  btnFav.addEventListener("click", ()=> verFavoritos())
+  btnFav.addEventListener("click", ()=> verFav())
 
   btnOut.addEventListener("click", ()=> logout())
 }
 
-async function verFav() {
+function verFav() {
   const options = { 
     method: 'GET',
     headers:{
       'Content-Type': 'application/json',
-      'authorization': sessionStorage.getItem('token')
+      'authorization': localStorage.getItem('token')
     }
   }
-
-  fetch("/verfavoritos", options)
+  fetch("/favorites/get", options)
     .then(res => res.json())
-    .then(res => res.map(el => pintarFav(el)))
+    .then(res => {
+      if (res.status === 400) {
+        console.log(res.data);
+      }
+      else {
+        res.map(el => pintarFav(el))
+      }
+    })
     .catch(err => console.log("Algo va mal...", err))
 }
 
@@ -116,6 +135,8 @@ async function pintarFav(data) {
     btn.appendChild(btnC)
     div.appendChild(btn)
 
+    RESULT.appendChild(div)
+
     btn.addEventListener("click", ()=> deleteFav(data))
 }
 
@@ -125,13 +146,27 @@ function guardarFav(data) {
     body: JSON.stringify({titulo: data.titulo, resumen: data.resumen, url: data.url}),
     headers:{
       'Content-Type': 'application/json',
-      'authorization': sessionStorage.getItem('token')
+      'authorization': localStorage.getItem('token')
     }
   }
 
   fetch("/favorites/create", options)
-    .then(res => res.json())
-    .then(res => console.log(res))
+    .then(response => response.json())
+    .then(res => {
+      if(res.status === 401){
+        alert(res.data)
+        window.location.reload()
+      }
+      else if (res.status === 406) {
+        alert(res.data)
+      }
+      else if (res.status === 200) {
+        alert(res.data)
+      }
+      else {
+        console.log("QUE COÑO PASA?");
+      }
+    })
     .catch(err => console.log("Algo va mal...", err))
 }
 
@@ -141,25 +176,43 @@ function deleteFav(data) {
     body: JSON.stringify({url: data.url}),
     headers:{
       'Content-Type': 'application/json',
-      'authorization': sessionStorage.getItem('token')
+      'authorization': localStorage.getItem('token')
     }
   }
 
-  fetch("/favorito", options)
+  fetch("/favorites/delete", options)
     .then(res => res.json())
-    .then(res => console.log(res))
+    .then(res => {
+      if(res.status === 400) {
+        console.log(res.data);
+      }
+      else if (res.status === 406) {
+        console.log(res.data);
+      }
+      else if (res.status === 200) {
+        alert(res.data)
+        verFav()
+      }
+      else if (res.status === 401) {
+        alert(res.data)
+      }
+    })
     .catch(err => console.log("Algo va mal...", err))
 }
 
 // CAMBIAR BOTONES
-if (sessionStorage.getItem('token')) {
+if (!localStorage.getItem('token') == "") {
   botones()
 }
 
 // EVENTOS
 BUSCAR.addEventListener("click", () => search());
 
-RESET.addEventListener("click", () => document.querySelectorAll(".oferta").forEach(el => el.remove()))
+RESET.addEventListener("click", () => {
+  KEYWORD.value = "";
+  UBICACION.value = "";
+  document.querySelectorAll(".oferta").forEach(el => el.remove())
+})
 
 SIGNIN.addEventListener("click",() => {
     window.location.href = "sign/signin"
