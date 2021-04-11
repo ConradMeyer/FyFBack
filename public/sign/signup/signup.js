@@ -11,21 +11,22 @@ function signup() {
       headers:{'Content-Type': 'application/json'}
     }
     fetch("/signup", options)
+        .then(res => res.json())
         .then(response => {
             if (response.status === 200) {
-                alert("New user added, redirecting to Login")
-                window.location.href = "http://localhost:8080/login"
+                alert(response.data)
+                window.location.href = "http://localhost:8080/sign/signin/"
             }
             else if (response.status === 400) {
-                alert("User already exist, redirecting to Login")
-                window.location.href = "http://localhost:8080/login"
+                alert(response.data)
+                window.location.href = "http://localhost:8080/sign/signin/"
             }
             else if (response.status === 406) {
-                alert("Email or pass no valid")
+                alert(response.data)
             }
             else {
-                alert("No se que va mal...")
+                alert("Algo va mal...")
             }
         })
         .catch(err => console.log(err))
-  }
+}
