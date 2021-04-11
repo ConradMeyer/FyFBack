@@ -5,7 +5,6 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const md5 = require('md5')
 const randomstring = require("randomstring");
-const { load } = require('cheerio');
 const connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
@@ -19,7 +18,7 @@ connection.connect();
 // Logic
 // -------------------------------------------------------------------------------
 
-const registerNewUser = (USER) => {
+const registerNewUser = USER => {
         const secret = randomstring.generate();
         return new Promise((res, rej) => { 
                 connection.query(`INSERT INTO usuarios (email, pass, secret) VALUES ("${USER.email}","${USER.pass}", "${secret}")`, function (error, results, fields)  {
@@ -77,16 +76,13 @@ const checkUser = (email, pass) => {
 
 const readFavorite = token => {
         const decode = jwt.decode(token)
-        console.log(decode);
         if (decode.email) {
                 return new Promise((res, rej) => {
                         connection.query(`SELECT * FROM favoritos WHERE idUsuario = ${decode.id}`, function (error, result, fields)  {
                                 if (error) {
-                                        console.log(error);
                                         res(false) 
                                 }
                                 else {
-                                        console.log(result);
                                         res(result)
                                 }           
                         })
@@ -150,45 +146,76 @@ const deleteFav = async url => {
         return new Promise ((res, rej) => {
                 connection.query(`DELETE FROM favoritos WHERE url = "${url}"`, function (error, results) {
                         if (error) {
-                                res(false) 
+                                const result = {
+                                        status: 406,
+                                        data: "Algo va mal",
+                                        ok: false,
+                                        url: "/" 
+                                }
+                                rej(result) 
+                        } else if(results.affectedRows === 1){
+                                const result = {
+                                        status: 200,
+                                        data: "Se ha eliminado tu favorito",
+                                        ok: true,
+                                        url: "/"
+                                }
+                                res(result)
+                        } else {
+                                const result = {
+                                        status: 401,
+                                        data: "Tu favorito no existe",
+                                        ok: false,
+                                        url: "/"
+                                }
+                                res(result)
                         }
-                        else {
-                                res(true) ;
-                        } 
                 });
         })
 }
 
 const registerNewFav = NEWFAV => {
-        new Promise((resolve, reject) => {
-                connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
-                        if (error) {
-                                const result = {
-                                        status: 401,
-                                        data: "Ha ocurrido un error",
-                                        ok: false,
-                                        url: '/'
+        if (NEWFAV.token.email){
+                return new Promise((resolve, reject) => {
+                        connection.query(`INSERT IGNORE INTO favoritos (titulo,resumen, url, idUsuario) VALUES ("${NEWFAV.titulo}","${NEWFAV.resumen}","${NEWFAV.url}","${NEWFAV.idUsuario}")`, function (error, results, fields)  {
+                                console.log(results);
+                                if (error) {
+                                        const result = {
+                                                status: 401,
+                                                data: "Ha ocurrido un error",
+                                                ok: false,
+                                                url: '/'
+                                        }
+                                        resolve(result);
                                 }
-                                resolve(result);
-                        }
-                        else if(results.affectedRows === 0) {
-                                const result = {
-                                        status: 400,
-                                        data: "Esta oferta favorita ya existe",
-                                        ok: false
-                                }
-                                resolve(result);
-                        } else {
-                                const result = {
-                                        status: 200,
-                                        data: "Oferta favorita guardada correctamente",
-                                        url: '/',
-                                        ok: true
-                                }
-                                resolve(result);
-                        }   
+                                else if(results.affectedRows === 0) {
+                                        const result = {
+                                                status: 406,
+                                                data: "Esta oferta favorita ya existe",
+                                                ok: false
+                                        }
+                                        resolve(result);
+                                } else {
+                                        console.log("BIEN!");
+                                        const result = {
+                                                status: 200,
+                                                data: "Oferta favorita guardada correctamente",
+                                                url: '/',
+                                                ok: true
+                                        }
+                                        resolve(result);
+                                }   
+                        })
                 })
-        })
+        }
+        else {
+                const result = {
+                    status: 400,
+                    data: "No tienes token, no autorizado",
+                    ok: false
+                }
+                return result
+            }
 }
 
 const changeCodes = async TERM => { 
@@ -198,7 +225,7 @@ const changeCodes = async TERM => {
                                 reject(error)
                         }
                         else {
-                        resolve(results[0].codigo)
+                                resolve(results[0].codigo)
                         }
                 })
         })

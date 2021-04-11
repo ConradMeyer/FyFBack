@@ -3,6 +3,7 @@
 // -------------------------------------------------------------------------------
 
 const md5 = require('md5')
+const jwt = require('jsonwebtoken');
 const axios = require('axios')
 const fetch = require('node-fetch')
 const cheerio = require('cheerio')
@@ -28,14 +29,14 @@ function validatePass(pass) {
 const signUp = async (email, pass) => { 
     const USER = {
         email: email,
-        pass: pass
+        pass: md5(pass)
     }
     const result = await registerNewUser(USER)
     return result
 }
 
 const signIn = async (email, pass) => {
-    const result = await checkUser(email, pass)
+    const result = await checkUser(email, md5(pass))
     return result
 }
 
@@ -44,15 +45,18 @@ const signOut = async token => {
     return result;
 }
 
-const saveFavorite = async (titulo, resumen, url, idUsuario) => {
+const saveFavorite = async (titulo, resumen, url, token) => {
+    let decode = jwt.decode(token)
     const NEWFAV = { 
         titulo: titulo, 
         resumen: resumen, 
         url: url, 
-        idUsuario: idUsuario
+        idUsuario: decode.id,
+        token: decode
     }
-    const result = await registerNewFav(NEWFAV)
-    return result
+        const result = await registerNewFav(NEWFAV)
+        console.log(result, "2");
+        return result
 }
 
 const readFav = async token => {
@@ -60,9 +64,19 @@ const readFav = async token => {
     return result
 }
 
-const deleteFavorite = async url => {
-    const result = await deleteFav(url);
-    return result
+const deleteFavorite = async (url, token) => {
+    let decode = jwt.decode(token)
+    if (decode.email) {
+        const result = await deleteFav(url);
+        return result
+    } else {
+        const result = {
+            status: 400,
+            data: "No tienes token, no autorizado",
+            ok: false
+        }
+        return result
+    }
 }
 
 // Primer scraper

@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, saveFavorite, searchJobs, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
 const app = express();
 
 // -------------------------------------------------------------------------------
@@ -53,12 +53,12 @@ app.get("/search/:localization/:keyword", async (req,res) => {
 })
 
 app.post("/favorites/create", async (req, res) => {
-    const result = await saveFavorite(req.body.titulo, req.body.resumen, req.body.url, req.body.idUsuario)
+    const result = await saveFavorite(req.body.titulo, req.body.resumen, req.body.url, req.headers.authorization)
     res.send(result)
 })
 
 app.delete("/favorites/delete", async (req, res) => {
-    const result = await deleteFavorite(req.body.url);
+    const result = await deleteFavorite(req.body.url, req.headers.authorization);
     res.send(result)
 })
 
