@@ -9,13 +9,18 @@ const RESULT = document.querySelector("#result");
 
 // FUNCIONES
 function search() { 
+<<<<<<< HEAD
   const OPTIONS = {
+=======
+  const options = { 
+>>>>>>> develop
     method: 'GET',
     headers:{
       'Content-Type': 'application/json',
       'authorization': localStorage.getItem('token')
     }
   }
+<<<<<<< HEAD
     fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, OPTIONS)
       .then(res => res.json())
       .then(res => 
@@ -24,12 +29,18 @@ function search() {
           console.log(res)
         })
 
+=======
+    fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, options)
+      .then(res => res.json())
+      .then(res => {
+        document.querySelectorAll(".oferta").forEach(el => el.remove())
+        res.map(el => pintar(el))
+      })
+>>>>>>> develop
       .catch(err => console.log("Algo va mal...", err))
 }
 
-async function pintar(data) {
-  await document.querySelectorAll(".oferta").forEach(el => el.remove())
-
+function pintar(data) {
   let div = document.createElement("div");
   div.setAttribute("class", "oferta")
 
@@ -47,14 +58,27 @@ async function pintar(data) {
 
   RESULT.appendChild(div)
   
-  if (!localStorage.getItem("token") == "") {
-    let btn = document.createElement("div")
-    btn.setAttribute("class", "guardar")
-    let btnC = document.createTextNode("SAVE")
-    btn.appendChild(btnC)
-    div.appendChild(btn)
+  if (localStorage.getItem("token")) {
+    if (data.ok) {
+      let btnD = document.createElement("img")
+      btnD.setAttribute("src", "../assets/heart-solid.svg")
+      div.appendChild(btnD)
 
-    btn.addEventListener("click", ()=> guardarFav(data))
+      btnD.addEventListener("click", async ()=> {
+        await deleteFav2(data) 
+        await search()
+      })
+
+    } else if (!data.ok || data.ok == null) {
+      let btnS = document.createElement("img")
+      btnS.setAttribute("src", "../assets/heart-regular.svg")
+      div.appendChild(btnS)
+  
+      btnS.addEventListener("click", async ()=> {
+        await guardarFav(data)
+        await search()
+      })
+    }
   }
 }
 
@@ -117,6 +141,9 @@ function verFav() {
       if (res.status === 400) {
         console.log(res.data);
       }
+      else if (res.length == 0) {
+        document.querySelectorAll(".oferta").forEach(el => el.remove())
+      }
       else {
         res.map(el => pintarFav(el))
       }
@@ -141,10 +168,8 @@ async function pintarFav(data) {
     text.appendChild(resm)
     div.appendChild(text)
 
-    let btn = document.createElement("div")
-    btn.setAttribute("class", "guardar")
-    let btnC = document.createTextNode("DELETE")
-    btn.appendChild(btnC)
+    let btn = document.createElement("img")
+    btn.setAttribute("src", "../assets/heart-solid.svg")
     div.appendChild(btn)
 
     RESULT.appendChild(div)
@@ -173,7 +198,7 @@ function guardarFav(data) {
         alert(res.data)
       }
       else if (res.status === 200) {
-        alert(res.data)
+        // alert(res.data)
       }
       else {
         console.log("QUE COÑO PASA?");
@@ -202,7 +227,7 @@ function deleteFav(data) {
         console.log(res.data);
       }
       else if (res.status === 200) {
-        alert(res.data)
+        // alert(res.data)
         verFav()
       }
       else if (res.status === 401) {
@@ -212,8 +237,37 @@ function deleteFav(data) {
     .catch(err => console.log("Algo va mal...", err))
 }
 
+function deleteFav2(data) {
+  const options = { 
+    method: 'DELETE',
+    body: JSON.stringify({url: data.url}),
+    headers:{
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem('token')
+    }
+  }
+
+  fetch("/favorites/delete", options)
+    .then(res => res.json())
+    .then(res => {
+      if(res.status === 400) {
+        console.log(res.data);
+      }
+      else if (res.status === 406) {
+        console.log(res.data);
+      }
+      else if (res.status === 200) {
+        // alert(res.data)
+      }
+      else if (res.status === 401) {
+        alert(res.data)
+      }
+    })
+    .catch(err => console.log("Algo va mal...", err))
+}
+
 // CAMBIAR BOTONES
-if (!localStorage.getItem('token') == "") {
+if (localStorage.getItem('token')) {
   botones()
 }
 

@@ -55,7 +55,6 @@ const saveFavorite = async (titulo, resumen, url, token) => {
         token: decode
     }
         const result = await registerNewFav(NEWFAV)
-        console.log(result, "2");
         return result
 }
 
