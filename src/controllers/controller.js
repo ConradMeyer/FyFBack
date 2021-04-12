@@ -83,11 +83,19 @@ const searchJobs = async (location, key) => {
     const TERM = {
         localizacion: location
     }
-    
-    const codigo = await changeCodes(TERM) 
-     
-    const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${key}&pr=,${codigo},&ex=,1,#buscador-ofertas-ini`)
-    const $ = await cheerio.load(html.data);
+        const val = async location => {
+            if(location === "nada") {
+                const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${key}&ex=,1,#buscador-ofertas-ini`)
+                return html
+            }else{
+                const codigo = await changeCodes(TERM) 
+                const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${key}${'&pr=,' + codigo + ','},&ex=,1,#buscador-ofertas-ini`)
+                return html
+            }
+        }
+    const result2 = await val(location)
+
+    const $ = await cheerio.load(result2.data);
 
     let resumenes = [];
     let titulos = [];
@@ -113,11 +121,28 @@ const searchJobs = async (location, key) => {
     return result;
 }
 
+
+// https://es.jooble.org/SearchResult?ukw=java
+
 // Segundo scraper
 const searchJobs2 = async (location, key) => {
 
-    const html = await axios.get(`https://es.jooble.org/SearchResult?rgns=${location}&ukw=${key}&workExp=2`);
-    const $ = await cheerio.load(html.data)
+
+    const val = async location => {
+        if(location === "nada") {
+            const html = await axios.get(`https://es.jooble.org/SearchResult?ukw=${key}`)
+            return html
+        }else{
+            const html = await axios.get(`https://es.jooble.org/SearchResult?rgns=${location}&ukw=${key}&workExp=2`);            
+            return html
+        }
+    }
+const result2 = await val(location)
+
+const $ = await cheerio.load(result2.data);
+
+
+
 
     let resumenes = [];
     let titulos = [];
