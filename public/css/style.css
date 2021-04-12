@@ -104,14 +104,15 @@ div.buscador {
     max-width: 1000px;
     background-color: whitesmoke;
     margin: 20px auto;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 3px 3px 15px -4px black;
     color: black;
 }
     .oferta a {
         text-decoration: none;
-        font-size: 20px;
+        font-size: 25px;
+        font-weight: bold;
         color: black;
     }
         .oferta a:hover {
@@ -119,6 +120,7 @@ div.buscador {
         }
     .oferta h3 {
         margin-top: 15px;
+        font-weight: normal;
     }
     .oferta .guardar {
         background-color: black;
