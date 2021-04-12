@@ -16,13 +16,14 @@ function search() {
       'authorization': localStorage.getItem('token')
     }
   }
-    fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, options)
-      .then(res => res.json())
-      .then(res => {
-        document.querySelectorAll(".oferta").forEach(el => el.remove())
-        res.map(el => pintar(el))
-      })
-      .catch(err => console.log("Algo va mal...", err))
+
+  fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, options)
+    .then(res => res.json())
+    .then(res => {
+      document.querySelectorAll(".oferta").forEach(el => el.remove())
+      res.map(el => pintar(el))
+    })
+    .catch(err => console.log("Algo va mal...", err))
 }
 
 function pintar(data) {

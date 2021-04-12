@@ -83,7 +83,7 @@ const searchJobs = async (location, key) => {
     const TERM = {
         localizacion: location
     }
-
+    
     const codigo = await changeCodes(TERM) 
      
     const html = await axios.get(`https://www.tecnoempleo.com/busqueda-empleo.php?te=${key}&pr=,${codigo},&ex=,1,#buscador-ofertas-ini`)
