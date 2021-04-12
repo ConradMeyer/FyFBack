@@ -56,7 +56,6 @@ const checkUser = (email, pass) => {
                                 status: 200,
                                 data: "Usuario logeado correctamente",
                                 token: token,
-                                idUsuario: results[0].id,
                                 ok: true
                                 }
                                 res(result) 
@@ -198,7 +197,6 @@ const registerNewFav = NEWFAV => {
                                         const result = {
                                                 status: 200,
                                                 data: "Oferta favorita guardada correctamente",
-                                                url: '/',
                                                 ok: true
                                         }
                                         resolve(result);

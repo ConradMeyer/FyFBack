@@ -136,7 +136,7 @@ const searchJobs2 = async (location, key) => {
     });
 
     const result = resumenes.map((el, i) => {
-        const obj = {titulo: titulos[i], resumen: el, url: `es.jooble.org` + urls[i]}
+        const obj = {titulo: titulos[i], resumen: el, url: `http://es.jooble.org` + urls[i]}
         return obj
     })
 
