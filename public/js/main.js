@@ -26,7 +26,6 @@ function search() {
 }
 
 function pintar(data) {
-
   let div = document.createElement("div");
   div.setAttribute("class", "oferta")
 
@@ -52,11 +51,8 @@ function pintar(data) {
       btnD.appendChild(dtext)
       div.appendChild(btnD)
 
-      btnD.addEventListener("click", async ()=> {
-        await deleteFav(data) 
-        // ver favoritos
-        await search()
-        // borrar esos favoritos para pintar la busqueda actualizada
+      btnD.addEventListener("click", ()=> {
+        deleteFav2(data) 
       })
 
     } else {
@@ -220,6 +216,36 @@ function deleteFav(data) {
       else if (res.status === 200) {
         alert(res.data)
         verFav()
+      }
+      else if (res.status === 401) {
+        alert(res.data)
+      }
+    })
+    .catch(err => console.log("Algo va mal...", err))
+}
+
+function deleteFav2(data) {
+  const options = { 
+    method: 'DELETE',
+    body: JSON.stringify({url: data.url}),
+    headers:{
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem('token')
+    }
+  }
+
+  fetch("/favorites/delete", options)
+    .then(res => res.json())
+    .then(res => {
+      if(res.status === 400) {
+        console.log(res.data);
+      }
+      else if (res.status === 406) {
+        console.log(res.data);
+      }
+      else if (res.status === 200) {
+        alert(res.data)
+        search()
       }
       else if (res.status === 401) {
         alert(res.data)
