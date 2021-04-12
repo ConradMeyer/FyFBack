@@ -273,3 +273,7 @@ SIGNUP.addEventListener("click",() => {
     window.location.href = "sign/signup"
 } )
 
+
+
+
+
