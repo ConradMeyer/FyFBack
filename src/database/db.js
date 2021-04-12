@@ -75,6 +75,7 @@ const checkUser = (email, pass) => {
 
 const readFavorite = token => {
         const decode = jwt.decode(token)
+     
         if (decode.email) {
                 return new Promise((res, rej) => {
                         connection.query(`SELECT * FROM favoritos WHERE idUsuario = ${decode.id}`, function (error, result, fields)  {

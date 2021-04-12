@@ -9,9 +9,21 @@ const RESULT = document.querySelector("#result");
 
 // FUNCIONES
 function search() { 
-    fetch(`/search/${UBICACION.value}/${KEYWORD.value}`)
+  const OPTIONS = {
+    method: 'GET',
+    headers:{
+      'Content-Type': 'application/json',
+      'authorization': localStorage.getItem('token')
+    }
+  }
+    fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, OPTIONS)
       .then(res => res.json())
-      .then(res => res.map(el => pintar(el)))
+      .then(res => 
+        {
+          res.map(el => pintar(el))
+          console.log(res)
+        })
+
       .catch(err => console.log("Algo va mal...", err))
 }
 
@@ -143,7 +155,7 @@ async function pintarFav(data) {
 function guardarFav(data) {
   const options = { 
     method: 'POST',
-    body: JSON.stringify({titulo: data.titulo, resumen: data.resumen, url: data.url}),
+    body: JSON.stringify( { titulo: data.titulo, resumen: data.resumen, url: data.url } ),
     headers:{
       'Content-Type': 'application/json',
       'authorization': localStorage.getItem('token')
