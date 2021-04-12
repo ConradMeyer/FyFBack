@@ -47,9 +47,22 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     const result2 = await searchJobs2(req.params.localization, req.params.keyword);
     
     const finalResult = [...result, ...result2];
-
-    res.send(finalResult)
-  
+    
+    if (req.headers.authorization) {
+        const favoritos = await readFav(req.headers.authorization);
+        const comparados = finalResult.map(el => {
+            favoritos.map(fav => {
+                if (fav.url === el.url){
+                    el.ok = true;
+                }
+            })
+            return el
+        })
+        res.send(comparados)
+    } else {
+        res.send(finalResult)
+    }
+    
 })
 
 app.post("/favorites/create", async (req, res) => {
