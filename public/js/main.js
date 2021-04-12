@@ -9,35 +9,32 @@ const RESULT = document.querySelector("#result");
 
 // FUNCIONES
 function search() { 
-<<<<<<< HEAD
-  const OPTIONS = {
-=======
   const options = { 
->>>>>>> develop
     method: 'GET',
     headers:{
       'Content-Type': 'application/json',
       'authorization': localStorage.getItem('token')
     }
   }
-<<<<<<< HEAD
-    fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, OPTIONS)
+  if (UBICACION.value == "" || UBICACION.value == " ") {
+      fetch(`/search/${"nada"}/${KEYWORD.value}`, options)
       .then(res => res.json())
-      .then(res => 
-        {
-          res.map(el => pintar(el))
-          console.log(res)
-        })
+      .then(res => {
+        document.querySelectorAll(".oferta").forEach(el => el.remove())
+        res.map(el => pintar(el))
+      })
+      .catch(err => console.log("Algo va mal...", err))
+  }
+  else {
 
-=======
     fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, options)
       .then(res => res.json())
       .then(res => {
         document.querySelectorAll(".oferta").forEach(el => el.remove())
         res.map(el => pintar(el))
       })
->>>>>>> develop
       .catch(err => console.log("Algo va mal...", err))
+  }
 }
 
 function pintar(data) {

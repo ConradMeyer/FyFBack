@@ -83,6 +83,10 @@ div.buscador {
         border-radius: 10px;
         box-shadow: 0px 0px 20px 0px black;
     }
+    .buscador input:focus {
+        outline: none;
+    }
+
     .buscador button {
         background-color: orangered;
         color: white;
@@ -96,6 +100,9 @@ div.buscador {
         .buscador button:hover {
             cursor: pointer;
             transform: scale(1.05);
+        }
+        .buscador button:focus {
+            outline: none;
         }
 
 .result .oferta {
