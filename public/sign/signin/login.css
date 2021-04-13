@@ -51,6 +51,7 @@ body {
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        margin-top: 10px;
     }
         div.check label {
             margin-left: 5px;

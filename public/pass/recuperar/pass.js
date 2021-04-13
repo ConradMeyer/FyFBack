@@ -25,7 +25,16 @@ function newPass() {
                         alert(response.data)
                         window.location.href = "http://localhost:8080/sign/signin"
                     }
-                    else if (response.status === 401) {
+                    else if (response.status === 400) {
+                        alert(response.data)
+                    }
+                    else if (response.status ===401) {
+                        alert(response.status)
+                    }
+                    else if (response.status === 500) {
+                        alert(response.data)
+                    }
+                    else if (response.status === 406) {
                         alert(response.data)
                     }
                     else{
