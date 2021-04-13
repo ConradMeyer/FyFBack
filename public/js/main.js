@@ -16,7 +16,10 @@ function search() {
       'authorization': localStorage.getItem('token')
     }
   }
-  if (UBICACION.value == "" || UBICACION.value == " ") {
+
+  UBICACION.value = UBICACION.value.trim()
+  
+  if (UBICACION.value == "") {
       fetch(`/search/${"nada"}/${KEYWORD.value}`, options)
       .then(res => res.json())
       .then(res => {
