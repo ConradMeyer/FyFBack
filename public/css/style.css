@@ -83,6 +83,10 @@ div.buscador {
         border-radius: 10px;
         box-shadow: 0px 0px 20px 0px black;
     }
+    .buscador input:focus {
+        outline: none;
+    }
+
     .buscador button {
         background-color: orangered;
         color: white;
@@ -97,7 +101,9 @@ div.buscador {
             cursor: pointer;
             transform: scale(1.05);
         }
-
+        .buscador button:focus {
+            outline: none;
+        }
 .result .oferta {
     width: 90%;
     font-family: 'Times New Roman', Times, serif;
@@ -142,5 +148,42 @@ div.buscador {
     div.buscador {
         width: 95%;
     }
+
+}
+
+
+
+@media screen and ( max-width: 400px ) {
+    div.menu{
+        margin-top: -200px;
+    }
+    div.buscador {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 10px;
+        margin-top: 120px;
+    }
+
+    .buscador input {
+        margin: 5px auto;
+        width: 90%;
+    }
+
+    .buscador button {
+        margin: 10px 10px;
+        padding: 6px;
+    }
+
+    div.main{
+        height: auto;
+        padding-bottom: 1px;
+    }
+
+    div.titulo{
+        margin-top: 100px;
+    }
+
 
 }

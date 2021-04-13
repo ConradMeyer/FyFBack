@@ -75,6 +75,7 @@ const checkUser = (email, pass) => {
 
 const readFavorite = token => {
         const decode = jwt.decode(token)
+     
         if (decode.email) {
                 return new Promise((res, rej) => {
                         connection.query(`SELECT * FROM favoritos WHERE idUsuario = ${decode.id}`, function (error, result, fields)  {
@@ -227,8 +228,20 @@ const changeCodes = async TERM => {
         })
 }
 
+const doQuery = async param => {
+        return new Promise((resolve, reject) => {
+                connection.query(param, function(err, res) {
+                        if (err) {
+                                rej(false)
+                        }
+                        else {
+                                resolve(res)
+                        }
+                } )
+        })
+}
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes}
+module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes, doQuery}

@@ -4,7 +4,7 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass} = require('./src/controllers/controller')
 const app = express();
 
 // -------------------------------------------------------------------------------
@@ -46,8 +46,8 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     const result = await searchJobs(req.params.localization, req.params.keyword);
     const result2 = await searchJobs2(req.params.localization, req.params.keyword);
     
-    const finalResult = [...result, ...result2];
-    
+    const finalResult = [...result, ...result2];    
+
     if (req.headers.authorization) {
         const favoritos = await readFav(req.headers.authorization);
         const comparados = finalResult.map(el => {
@@ -62,7 +62,6 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     } else {
         res.send(finalResult)
     }
-    
 })
 
 app.post("/favorites/create", async (req, res) => {
@@ -77,6 +76,16 @@ app.delete("/favorites/delete", async (req, res) => {
 
 app.get("/favorites/get", async (req, res) => {
     const result = await readFav(req.headers.authorization);
+    res.send(result)
+})
+
+app.post("/user/newpass", async (req,res) =>{
+    const result = await newPass(req.body.email)
+    res.send(result)
+})
+
+app.put("/user/changepass", async (req,res) =>{
+    const result = await changePass(req.body.pass, req.headers.authorization)
     res.send(result)
 })
 
