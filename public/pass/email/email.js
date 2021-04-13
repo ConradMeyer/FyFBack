@@ -9,8 +9,7 @@ function sendEmail() {
     body: JSON.stringify({ email: EMAIL.value }),
     headers: { "Content-Type": "application/json" },
   };
-
-  fetch("/users/newpass", options)
+  fetch("/user/newpass", options)
     .then((data) => data.json())
     .then((response) => {
       console.log(response);

@@ -7,7 +7,6 @@ BTN.addEventListener("click", () => newPass());
 function newPass() {
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('token');
-
     if (PASS.value === PASS2.value) {
         const options = { 
             method: 'PUT',
