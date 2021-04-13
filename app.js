@@ -4,8 +4,10 @@
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
+const {signUp, signUpGoogle, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav} = require('./src/controllers/controller')
 const app = express();
+const querystring = require("querystring");
+const axios = require("axios").default;
 
 // -------------------------------------------------------------------------------
 // Frontend app
@@ -15,6 +17,7 @@ const staticFilesPath = express.static(__dirname + "/public")
 app.use(staticFilesPath)
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+
 
 // -------------------------------------------------------------------------------
 // API
@@ -31,6 +34,15 @@ app.post("/signup", async (req, res) => {
             ok: false
         })
     } 
+})
+
+app.post("/signup/google", async (req, res) => {
+    
+        const result =  await signUpGoogle(req.body.email, "")
+        res.send(result)
+
+
+    
 })
 
 app.post("/signin", async (req, res) => {

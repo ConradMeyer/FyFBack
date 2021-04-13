@@ -35,6 +35,15 @@ const signUp = async (email, pass) => {
     return result
 }
 
+const signUpGoogle = async (email, pass) => {
+    const USER = {
+        email,
+        pass: md5(pass)
+    }
+    const result = await registerNewUserGoogle(USER)
+    return result   
+}
+
 const signIn = async (email, pass) => {
     const result = await checkUser(email, md5(pass))
     return result
@@ -147,4 +156,4 @@ const searchJobs2 = async (location, key) => {
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, searchJobs, searchJobs2, saveFavorite, validateEmail, validatePass, deleteFavorite, readFav}
+module.exports = {signUp, signUpGoogle, signIn, signOut, searchJobs, searchJobs2, saveFavorite, validateEmail, validatePass, deleteFavorite, readFav}
