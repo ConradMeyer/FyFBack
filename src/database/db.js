@@ -228,8 +228,20 @@ const changeCodes = async TERM => {
         })
 }
 
+const doQuery = async param => {
+        return new Promise((resolve, reject) => {
+                connection.query(param, function(err, res) {
+                        if (err) {
+                                rej(false)
+                        }
+                        else {
+                                resolve(res)
+                        }
+                } )
+        })
+}
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes}
+module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes, doQuery}
