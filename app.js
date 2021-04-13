@@ -47,8 +47,7 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     const result = await searchJobs(req.params.localization, req.params.keyword);
     const result2 = await searchJobs2(req.params.localization, req.params.keyword);
     
-    const finalResult = [...result, ...result2];
-    
+    const finalResult = [...result, ...result2];    
 
     if (req.headers.authorization) {
         const favoritos = await readFav(req.headers.authorization);
@@ -64,7 +63,6 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     } else {
         res.send(finalResult)
     }
-    
 })
 
 app.post("/favorites/create", async (req, res) => {

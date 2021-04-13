@@ -29,7 +29,6 @@ function search() {
       .catch(err => console.log("Algo va mal...", err))
   }
   else {
-
     fetch(`/search/${UBICACION.value}/${KEYWORD.value}`, options)
       .then(res => res.json())
       .then(res => {
