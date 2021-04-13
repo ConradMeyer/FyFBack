@@ -1,4 +1,3 @@
-
 // -------------------------------------------------------------------------------
 // Node modules
 // -------------------------------------------------------------------------------
@@ -87,6 +86,11 @@ app.post("/user/newpass", async (req,res) =>{
 
 app.put("/user/changepass", async (req,res) =>{
     const result = await changePass(req.body.pass, req.headers.authorization)
+    res.send(result)
+})
+
+app.post('/signin/google', async (req, res) => {
+    const result = await signIn(req.body.email, "")
     res.send(result)
 })
 
