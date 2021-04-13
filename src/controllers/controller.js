@@ -172,7 +172,7 @@ const newPass = async (email) => {
 
     if (response.length !== 0) {
         const token = jwt.sign({email: email} , response[0].pass);
-        const link = `http://localhost:8080/newpass?token=${token}`;
+        const link = `http://localhost:8080/pass/recuperar/?token=${token}`;
         try {
             await mailer(email, link)
                 .then(res => {
