@@ -130,7 +130,7 @@ const searchJobs2 = async (location, key) => {
 
     const val = async location => {
         if(location === "nada") {
-            const html = await axios.get(`https://es.jooble.org/SearchResult?ukw=${key}`)
+            const html = await axios.get(`https://es.jooble.org/SearchResult?ukw=${key}&workExp=2`)
             return html
         }else{
             const html = await axios.get(`https://es.jooble.org/SearchResult?rgns=${location}&ukw=${key}&workExp=2`);            
