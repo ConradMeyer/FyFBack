@@ -35,7 +35,7 @@ div.menu {
     display: flex;
     font-weight: bold;
     flex-direction: row;
-    margin-top: -100px;
+    margin-top: -85px;
     margin-right: 20px;
 }
     div.menu>div {
@@ -140,7 +140,6 @@ div.buscador {
             transform: scale(1.20);
         }
      
-
 .btn{
     border-radius: 20px;
 }
@@ -157,8 +156,6 @@ div.buscador {
     }
 
 }
-
-
 
 @media screen and ( max-width: 610px ) {
     div.menu{
