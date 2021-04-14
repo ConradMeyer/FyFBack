@@ -288,3 +288,14 @@ SIGNUP.addEventListener("click",() => {
     window.location.href = "sign/signup"
 } )
 
+KEYWORD.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    search()
+  }
+})
+
+UBICACION.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    search()
+  }
+})
