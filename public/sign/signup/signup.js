@@ -41,7 +41,7 @@ function signup() {
 
 function onSignIn(googleUser) {
     let profile = googleUser.getBasicProfile();
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    console.log('Email: ' + profile.getEmail());
     const options = { 
         method: 'POST',
         body: JSON.stringify({email: profile.getEmail()}),
@@ -52,13 +52,14 @@ function onSignIn(googleUser) {
           .then(response => {
               if (response.status === 200) {
                   alert(response.data)
-                  window.location.href = "http://localhost:8080/sign/signin/"
+                  localStorage.setItem('token', response.token)
+                  window.location.href = "http://localhost:8080/"
               }
               else if (response.status === 400) {
                   alert(response.data)
                   window.location.href = "http://localhost:8080/sign/signin/"
               }
-              else if (response.status === 406) {
+              else if (response.status === 405) {
                   alert(response.data)
               }
               else {

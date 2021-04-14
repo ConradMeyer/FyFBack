@@ -18,6 +18,7 @@ function search() {
   }
 
   UBICACION.value = UBICACION.value.trim()
+  KEYWORD.value = KEYWORD.value.trim()
   
   if (UBICACION.value == "") {
       fetch(`/search/${"nada"}/${KEYWORD.value}`, options)
