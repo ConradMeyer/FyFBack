@@ -56,16 +56,10 @@ body {
         div.check label {
             margin-left: 5px;
         }
-<<<<<<< HEAD
     .recordar{
         text-align: center;
         margin-top:8px;
         margin-bottom:8px;
-=======
-    .g-signin2 {
-        margin-top: 15px;
-        border-radius: 15px;
->>>>>>> dc736687c2c02105f7cc4dec99d9452fd48501be
     }
     .btnSign {
         background-color: orangered;
