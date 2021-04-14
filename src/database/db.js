@@ -240,8 +240,51 @@ const doQuery = async param => {
                 } )
         })
 }
+
+const registerNewUserGoogle = USER => {
+        return new Promise((res, rej) => {
+                const secret = randomstring.generate();
+                connection.query(`INSERT INTO usuarios (email, pass, secret) VALUES ("${USER.email}","${USER.pass}", "${secret}"`, function (error, results, fields) {
+                        if (error) {
+                                const result = {
+                                        status: 400,
+                                        data: "Usuario ya existe",
+                                        ok: false
+                                }
+                                res(result) 
+                        }
+                        else {
+                                connection.query(`SELECT secret, id FROM usuarios WHERE email = '${email}'`, function(err, results, fields){
+                                        if (err){
+                                                console.log(err);
+                                                res(false)
+                                        }
+                                        else if (result[0]?.secret){
+                                                let token = jwt.sign({email, id: results[0].id}, results[0].secret,{expiresIn: 60*60})
+                                                const result = {
+                                                        status:200,
+                                                        data: "Usuario logueado correctamente", 
+                                                        idUsuario: results[0].id,
+                                                        token,
+                                                        ok: true}
+                                                        res(result)
+                                        }
+                                        else if (results[0] == undefined){
+                                                const result = {
+                                                        status: 400, 
+                                                        data: "Email o contraseña incorrect@s", 
+                                                        ok: false
+
+                                                }
+                                                res(result)
+                                        }
+                                })
+                        }
+                })
+          })
+}
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes, doQuery}
+module.exports = {registerNewUser, deleteSecret, deleteFav, checkUser, readFavorite, registerNewFav, changeCodes, doQuery, registerNewUserGoogle}
