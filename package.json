@@ -1,13 +1,14 @@
 {
   "name": "MajorProjekt2_FyF",
   "version": "1.0.0",
-  "description": "",
+  "description": "Despliegue FYF",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "engines": {
-    "node": "14.x"
+    "node": "14.16.0"
   },
   "repository": {
     "type": "git",
