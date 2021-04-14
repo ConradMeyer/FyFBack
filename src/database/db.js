@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 const md5 = require('md5')
 const randomstring = require("randomstring");
 const connection = mysql.createConnection({
-        host     : 'localhost',
-        user     : 'root',
-        password : 'root',
-        database : 'fyf'
+        host     : process.env.HOOST,
+        user     : process.env.USER,
+        password : process.env.PASS,
+        database : process.env.DB
 });
 
 connection.connect();
