@@ -160,6 +160,7 @@ async function pintarFav(data) {
     let h2 = document.createElement("a")
     let title = document.createTextNode(data.titulo)
     h2.setAttribute("href", data.url)
+    h2.setAttribute("target", "_blank")
     h2.appendChild(title)
     div.appendChild(h2)
   
