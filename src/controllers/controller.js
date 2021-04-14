@@ -9,7 +9,7 @@ const fetch = require('node-fetch')
 const nodemailer = require('nodemailer')
 const randomstring = require("randomstring");
 const cheerio = require('cheerio')
-const {registerNewUser, checkUser, deleteSecret, deleteFav, readFavorite, registerNewFav, changeCodes, doQuery} = require('../database/db')
+const {registerNewUser, checkUser, deleteSecret, deleteFav, readFavorite, registerNewFav, changeCodes, doQuery, registerNewUserGoogle} = require('../database/db')
 
 // -------------------------------------------------------------------------------
 // Aux Functions
@@ -291,8 +291,17 @@ const mailer = (email, link) => {
     })
 }
 
+const signUpGoogle = async (email, pass) => {
+    const USER = {
+        email,
+        pass: md5(pass)
+    }
+    const result = await registerNewUserGoogle(USER)
+    return result   
+}
+
 // -------------------------------------------------------------------------------
 // Export modules
 // -------------------------------------------------------------------------------
 
-module.exports = {signUp, signIn, signOut, searchJobs, searchJobs2, saveFavorite, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass}
+module.exports = {signUp, signIn, signOut, searchJobs, searchJobs2, saveFavorite, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass, signUpGoogle}

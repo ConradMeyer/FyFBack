@@ -38,7 +38,37 @@ function signup() {
             alert ("Introduce un pass válido, con al menos una mayúscula, un número y ocho caracteres");
         };
 }
-    
+
+function onSignIn(googleUser) {
+    let profile = googleUser.getBasicProfile();
+    console.log('Email: ' + profile.getEmail());
+    const options = { 
+        method: 'POST',
+        body: JSON.stringify({email: profile.getEmail()}),
+        headers:{'Content-Type': 'application/json'}
+      }
+      fetch("/signup/google", options)
+          .then(res => res.json())
+          .then(response => {
+              if (response.status === 200) {
+                  alert(response.data)
+                  localStorage.setItem('token', response.token)
+                  window.location.href = "http://localhost:8080/"
+              }
+              else if (response.status === 400) {
+                  alert(response.data)
+                  window.location.href = "http://localhost:8080/sign/signin/"
+              }
+              else if (response.status === 405) {
+                  alert(response.data)
+              }
+              else {
+                  alert("Algo va mal...")
+              }
+          })
+          .catch(err => console.log(err))
+}
+
 // Funciones de validación
 function validateEmail(email) {
     let patternEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
