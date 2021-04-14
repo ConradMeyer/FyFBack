@@ -7,19 +7,25 @@
     <link rel="shortcut icon" href="https://www.flaticon.com/premium-icon/icons/svg/1184/1184787.svg">
     <link rel="stylesheet" href="login.css">
     <title>FyF</title>
+   
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="749288165661-tmve0f0uqv56n6q382e8iqp8p2phqjp1.apps.googleusercontent.com">
 </head>
 <body>
-    <div class="form">
-        <h2 class="titulo">Sign In</h2>
-        <input type="email" class="email" id="email" placeholder="Write your email" required>
-        <input type="password" name="pass" id="pass" placeholder="Password" required>
-        <p>¿No recuerdas tu contraseña? <a href="../../pass/email/" id="recuperar">Recuperar</a></p>
-        <div class="check">
-            <input type="checkbox" name="terms" id="terms">
-            <label for="terms">Keep me signed in</label>
+ 
+<div class="form">
+        <h2 class="titulo">Acceder</h2>
+        <input type="email" class="email" id="email" placeholder="Escribe tu email" required>
+        <input type="password" name="pass" id="pass" placeholder="Escribe tu contraseña" required>
+       
+        <div class="botones">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <div class="btnSign" id="signup">Entrar</div>
         </div>
-        <div class="btnSign" id="signup">SIGN IN</div>
-        <p>¿Aun no estás registrado? <a href="../signup" id="login">Sign Up</a></p>
+        <p class="linkSing">¿No estás registrado? <a href="../signup" id="login">Regístrate aquí</a></p>
+        <p class="linkSing"> Volver a la <a href="/" id="login">home</a></p>
+
+    </div>
     </div>
     <script src="login.js"></script>
 </body>

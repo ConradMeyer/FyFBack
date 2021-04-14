@@ -29,7 +29,7 @@ div.titulo {
     color: orangered;
 }
     .subtitulo {
-        margin-bottom: 20px;
+        margin-bottom: 5px;
     }
 div.menu {
     display: flex;
@@ -39,12 +39,13 @@ div.menu {
 }
     div.menu>div {
         background-color: whitesmoke;
+        margin-top: 20px;
         margin: 15px;
         padding: 8px 12px;
         text-align: center;
         border-radius: 15px;
         box-shadow: 0px 0px 20px 0px black;
-        font-weight: bolder;
+        width: 110px;
     }
         div.menu .signup {
             background-color: dodgerblue;
@@ -138,6 +139,10 @@ div.buscador {
         }
      
 
+.btn{
+    border-radius: 20px;
+}
+
 @media screen and ( max-width: 610px ) {
     header  {
         display: flex;
@@ -153,9 +158,9 @@ div.buscador {
 
 
 
-@media screen and ( max-width: 400px ) {
+@media screen and ( max-width: 610px ) {
     div.menu{
-        margin-top: -200px;
+        margin-top: -187px;
     }
     div.buscador {
         display: flex;
@@ -184,6 +189,14 @@ div.buscador {
     div.titulo{
         margin-top: 100px;
     }
+
+  .oferta a{
+      font-size: 22px;
+  }
+
+  .oferta h3{
+      font-size: 18px;
+  }
 
 
 }
