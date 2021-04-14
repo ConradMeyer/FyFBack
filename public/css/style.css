@@ -107,7 +107,7 @@ div.buscador {
         }
 .result .oferta {
     width: 90%;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     max-width: 1000px;
     background-color: whitesmoke;
     margin: 20px auto;

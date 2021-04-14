@@ -46,29 +46,27 @@ function validatePass(pass) {
     return patternPass.test(pass);  
 }
 
-
-// BOTON GOOGLE
-var googleUser = {};
-var startApp = function() {
-  gapi.load('auth2', function(){
-    // Retrieve the singleton for the GoogleAuth library and set up the client.
-    auth2 = gapi.auth2.init({
-      client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
-      cookiepolicy: 'single_host_origin',
-      // Request scopes in addition to 'profile' and 'email'
-      //scope: 'additional_scope'
-    });
-    attachSignin(document.getElementById('customBtn'));
-  });
-};
-
-function attachSignin(element) {
-  console.log(element.id);
-  auth2.attachClickHandler(element, {},
-      function(googleUser) {
-        document.getElementById('name').innerText = "Signed in: " +
-            googleUser.getBasicProfile().getName();
-      }, function(error) {
-        alert(JSON.stringify(error, undefined, 2));
-      });
+function onSignIn(googleUser) {
+    let profile = googleUser.getBasicProfile();
+    const options = { 
+        method: 'POST',
+        body: JSON.stringify({email: profile.getEmail()}),
+        headers:{'Content-Type': 'application/json'}
+      }
+        fetch("/signin/google", options)
+            .then(data => data.json())
+            .then(response => {
+                if (response.status === 200) {
+                    alert(response.data)
+                    localStorage.setItem("token", response.token)
+                    window.location.href = "http://localhost:8080/"
+                }
+                else if (response.status === 401) {
+                    alert(response.data)
+                }
+                else{
+                    alert("No se que va mal...")
+                }
+            })
+            .catch(err => console.log("Error con el servidor", err))
 }
