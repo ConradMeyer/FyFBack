@@ -45,3 +45,28 @@ function validatePass(pass) {
     let patternPass = /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
     return patternPass.test(pass);  
 }
+
+function onSignIn(googleUser) {
+    let profile = googleUser.getBasicProfile();
+    const options = { 
+        method: 'POST',
+        body: JSON.stringify({email: profile.getEmail()}),
+        headers:{'Content-Type': 'application/json'}
+      }
+        fetch("/signin/google", options)
+            .then(data => data.json())
+            .then(response => {
+                if (response.status === 200) {
+                    alert(response.data)
+                    localStorage.setItem("token", response.token)
+                    window.location.href = "http://localhost:8080/"
+                }
+                else if (response.status === 401) {
+                    alert(response.data)
+                }
+                else{
+                    alert("No se que va mal...")
+                }
+            })
+            .catch(err => console.log("Error con el servidor", err))
+}

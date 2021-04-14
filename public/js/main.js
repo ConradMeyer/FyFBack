@@ -18,6 +18,7 @@ function search() {
   }
 
   UBICACION.value = UBICACION.value.trim()
+  KEYWORD.value = KEYWORD.value.trim()
   
   if (UBICACION.value == "") {
       fetch(`/search/${"nada"}/${KEYWORD.value}`, options)
@@ -287,7 +288,14 @@ SIGNUP.addEventListener("click",() => {
     window.location.href = "sign/signup"
 } )
 
+KEYWORD.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    search()
+  }
+})
 
-
-
-
+UBICACION.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    search()
+  }
+})
