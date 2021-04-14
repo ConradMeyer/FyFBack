@@ -56,6 +56,10 @@ body {
         div.check label {
             margin-left: 5px;
         }
+    .g-signin2 {
+        margin-top: 15px;
+        border-radius: 15px;
+    }
     .btnSign {
         background-color: orangered;
         padding: 8px 20px;

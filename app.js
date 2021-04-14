@@ -1,10 +1,9 @@
-
 // -------------------------------------------------------------------------------
 // Node modules
 // -------------------------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
-const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass} = require('./src/controllers/controller')
+const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass, signUpGoogle} = require('./src/controllers/controller')
 const app = express();
 
 // -------------------------------------------------------------------------------
@@ -86,6 +85,16 @@ app.post("/user/newpass", async (req,res) =>{
 
 app.put("/user/changepass", async (req,res) =>{
     const result = await changePass(req.body.pass, req.headers.authorization)
+    res.send(result)
+})
+
+app.post('/signin/google', async (req, res) => {
+    const result = await signIn(req.body.email, "")
+    res.send(result)
+})
+
+app.post("/signup/google", async (req, res) => {
+    const result =  await signUpGoogle(req.body.email, "")
     res.send(result)
 })
 
