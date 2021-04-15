@@ -48,24 +48,31 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     
     const finalResult = [...result, ...result2];    
 
-    const prueba = finalResult.map(el => {
-        if (el.url.includes('jooble')) {
-            el.url.split('&sdi')[0]
-        }
-        return el
-    })
-    
-    console.log(prueba);
     if (req.headers.authorization) {
         const favoritos = await readFav(req.headers.authorization);
-        const comparados = finalResult.map(el => {
-            favoritos.map(fav => {
+
+        const compararFinal = finalResult.map(el => {
+            if (el.url.includes('jooble')) {
+                el.url = el.url.split('&sid')[0]
+            }
+            return el
+        })
+        const compararFav = favoritos.map(el => {
+            if (el.url.includes('jooble')) {
+                el.url = el.url.split('&sid')[0]
+            }
+            return el
+        })
+    
+        const comparados = compararFinal.map(el => {
+            compararFav.map(fav => {
                 if (fav.url === el.url){
                     el.ok = true;
                 }
             })
             return el
         })
+        
         res.send(comparados)
     } else {
         res.send(finalResult)
