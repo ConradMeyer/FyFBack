@@ -5,6 +5,7 @@ require('dotenv').config();
 const express = require('express');
 const {signUp, signIn, signOut, saveFavorite, searchJobs, searchJobs2, validateEmail, validatePass, deleteFavorite, readFav, newPass, changePass, signUpGoogle} = require('./src/controllers/controller')
 const app = express();
+const cors = require('cors');
 
 // -------------------------------------------------------------------------------
 // Frontend app
@@ -14,6 +15,7 @@ const app = express();
 // app.use(staticFilesPath)
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
+app.use(cors())
 
 // -------------------------------------------------------------------------------
 // API
