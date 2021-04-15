@@ -12,15 +12,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dgelez86/FyF.git"
+    "url": "git+https://github.com/ConradMeyer/FyFBack.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dgelez86/FyF/issues"
+    "url": "https://github.com/ConradMeyer/FyFBack/issues"
   },
-  "homepage": "https://github.com/dgelez86/FyF#readme",
+  "homepage": "https://github.com/ConradMeyer/FyFBack#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.5",
