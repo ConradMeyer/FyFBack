@@ -46,9 +46,9 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     const result = await searchJobs(req.params.localization, req.params.keyword);
     const result2 = await searchJobs2(req.params.localization, req.params.keyword);
     
-    const finalResult = [...result, ...result2];    
+    const finalResult = [...result, ...result2];
 
-    if (req.headers.authorization) {
+    if (req.headers.authorization || !req.headers.authorization === null) {
         const favoritos = await readFav(req.headers.authorization);
 
         const compararFinal = finalResult.map(el => {
@@ -63,7 +63,7 @@ app.get("/search/:localization/:keyword", async (req,res) => {
             }
             return el
         })
-    
+        
         const comparados = compararFinal.map(el => {
             compararFav.map(fav => {
                 if (fav.url === el.url){
@@ -72,7 +72,6 @@ app.get("/search/:localization/:keyword", async (req,res) => {
             })
             return el
         })
-
         res.send(comparados)
     } else {
         res.send(finalResult)
