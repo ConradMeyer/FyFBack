@@ -10,8 +10,8 @@ const app = express();
 // Frontend app
 // -------------------------------------------------------------------------------
 
-const staticFilesPath = express.static(__dirname + "/public")
-app.use(staticFilesPath)
+// const staticFilesPath = express.static(__dirname + "/public")
+// app.use(staticFilesPath)
 app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
