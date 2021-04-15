@@ -6,11 +6,14 @@
 
 body {
     font-family: monospace;
-
+    background-image: url(https://ticjob.es/img/theme-nd/no-fusion/background-home.jpg);
+    background-size: 100vh;
+    background-attachment: fixed;
+    background-size: cover;
 }
 
 div.main {
-    background-image: url(https://ticjob.es/img/theme-nd/no-fusion/background-home.jpg);
+    /* background-image: url(https://ticjob.es/img/theme-nd/no-fusion/background-home.jpg); */
     background-attachment: fixed;
     background-size: cover;
     height: 320px;

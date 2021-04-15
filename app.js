@@ -72,7 +72,7 @@ app.get("/search/:localization/:keyword", async (req,res) => {
             })
             return el
         })
-        
+
         res.send(comparados)
     } else {
         res.send(finalResult)
