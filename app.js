@@ -53,7 +53,6 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     }
     else if (req.headers.authorization || !req.headers.authorization === null) {
         const favoritos = await readFav(req.headers.authorization);
-
         const compararFinal = finalResult.map(el => {
             if (el.url.includes('jooble')) {
                 el.url = el.url.split('&sid')[0]
