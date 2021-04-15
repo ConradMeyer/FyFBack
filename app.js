@@ -48,7 +48,10 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     
     const finalResult = [...result, ...result2];
 
-    if (req.headers.authorization && !req.headers.authorization === null) {
+    if (req.headers.authorization === null) {
+        res.send(finalResult)
+    }
+    else if (req.headers.authorization || !req.headers.authorization === null) {
         const favoritos = await readFav(req.headers.authorization);
 
         const compararFinal = finalResult.map(el => {
