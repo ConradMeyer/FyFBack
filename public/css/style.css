@@ -12,13 +12,6 @@ body {
     background-size: cover;
 }
 
-div.main {
-    /* background-image: url(https://ticjob.es/img/theme-nd/no-fusion/background-home.jpg); */
-    background-attachment: fixed;
-    background-size: cover;
-    height: 320px;
-}
-
 header {
     display: flex;
     flex-direction: row;
