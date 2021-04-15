@@ -246,7 +246,6 @@ const registerNewUserGoogle = USER => {
                 const secret = randomstring.generate();
                 connection.query(`INSERT INTO usuarios (email, pass, secret) VALUES ("${USER.email}","${USER.pass}", "${secret}")`, function (error, results, fields) {
                         if (error) {
-                                console.log(error);
                                 const result = {
                                         status: 405,
                                         data: "Usuario ya existe",
