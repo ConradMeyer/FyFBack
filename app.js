@@ -48,6 +48,14 @@ app.get("/search/:localization/:keyword", async (req,res) => {
     
     const finalResult = [...result, ...result2];    
 
+    const prueba = finalResult.map(el => {
+        if (el.url.includes('jooble')) {
+            el.url.split('&sdi')[0]
+        }
+        return el
+    })
+    
+    console.log(prueba);
     if (req.headers.authorization) {
         const favoritos = await readFav(req.headers.authorization);
         const comparados = finalResult.map(el => {
