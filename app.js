@@ -119,4 +119,4 @@ app.post("/signup/google", async (req, res) => {
 // Start server
 // -------------------------------------------------------------------------------
 
-app.listen(process.env.PORT, () => console.log(`Server started on ${process.env.PORT}`))
+app.listen(PORT, () => console.log(`Server started on ${PORT}`))

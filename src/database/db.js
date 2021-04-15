@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
         host     : process.env.HOST,
         user     : process.env.USER,
         password : process.env.PASS,
-        database : 'aws-fyf'
+        database : process.env.DB
 });
 
 connection.connect();
